@@ -4,10 +4,9 @@ if(!defined("INCLUDED"))
 
 require_once dirname(__FILE__)."/../../config.php";
 
-/** @noinspection PhpUndefinedVariableInspection */
 $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
-$page = max(1, filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT));
+$page = max(1, filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT)) * 100;
 
 $num = $mysqli->query("SELECT count(*) FROM audit_log")->fetch_row()[0];
 
@@ -38,22 +37,7 @@ $result = $stmt->get_result();
 
     <!-- Favicons -->
     <meta name="theme-color" content="#563d7c">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
     <!-- Custom styles for this template -->
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -124,17 +108,17 @@ $result = $stmt->get_result();
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
-            <?php for ($i = max(1, $page - 3); $i <= min($page + 7,$num % 100); $i++) {?>
+            <?php for ($i = max(1, $page - 3); $i <= min($page + 7,ceil($num / 100)); $i++) {?>
                 <li class="page-item <?php echo $page == $i ? "active" : "";?>"><a class="page-link" href="?xsrf=<?php echo XSRF_TOKEN;?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
             <?php } ?>
             <li class="page-item">
-                <a class="page-link" href="?xsrf=<?php echo XSRF_TOKEN;?>&page=<?php echo min($page + 1, $num % 100)?>" aria-label="Next">
+                <a class="page-link" href="?xsrf=<?php echo XSRF_TOKEN;?>&page=<?php echo min($page + 1, ceil($num / 100))?>" aria-label="Next">
                     <span aria-hidden="true">&gt;</span>
                     <span class="sr-only">Next</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?xsrf=<?php echo XSRF_TOKEN;?>&page=<?php echo $num % 100?>" aria-label="Last">
+                <a class="page-link" href="?xsrf=<?php echo XSRF_TOKEN;?>&page=<?php echo ceil($num / 100)?>" aria-label="Last">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Last</span>
                 </a>
