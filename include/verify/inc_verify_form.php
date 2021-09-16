@@ -17,22 +17,7 @@ if(!defined("INCLUDED"))
 
     <!-- Favicons -->
     <meta name="theme-color" content="#563d7c">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
     <!-- Custom styles for this template -->
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -72,18 +57,19 @@ if(!defined("INCLUDED"))
 <script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
 
 <!--suppress JSUnresolvedVariable -->
+<!--suppress JSUnresolvedFunction -->
 <script>
     jQuery(function ($) {
         // get anything with the data-manyselect
         // you don't even have to name your group if only one group
-        var $group = $("[data-manyselect]");
+        let $group = $("[data-manyselect]");
 
         $group.on('input', function () {
-            var group = $(this).data('manyselect');
+            let group = $(this).data('manyselect');
             // set required property of other inputs in group to false
-            var allInGroup = $('*[data-manyselect="'+group+'"]');
+            let allInGroup = $('*[data-manyselect="' + group + '"]');
             // Set the required property of the other input to false if this input is not empty.
-            var oneSet = true;
+            let oneSet = true;
             $(allInGroup).each(function(){
                 if ($(this).val() !== "")
                     oneSet = false;

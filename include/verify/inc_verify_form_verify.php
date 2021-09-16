@@ -6,7 +6,7 @@ require_once dirname(__FILE__)."/../../config.php";
 
 require_once HERE."/include/functions.php";
 
-/** @noinspection PhpUndefinedVariableInspection */
+
 $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
 $inputs = filter_input_array(INPUT_POST, array(
@@ -24,7 +24,7 @@ try {
     $row = get_attendee_by_uuid($mysqli, $uuid, true, $errors);
     $details = get_detail_verification_by_user($mysqli, $row['id'], true, $errors);
     $vd = get_verification_data_by_user($mysqli, $row['id'], true, $errors);
-}catch (\Exception $e) {
+}catch (Exception $e) {
     require_once dirname(__FILE__)."/../../error.php";
     die();
 }
@@ -35,7 +35,7 @@ if(count($vd) > 0){
     $LOCKED = false;
 }
 
-if ($error || count($vd) > 1) {
+if (count($vd) > 1) {
     require_once HERE."/error.php";
     die();
 }
@@ -58,22 +58,6 @@ $vd = $vd[0];
 
     <!-- Favicons -->
     <meta name="theme-color" content="#563d7c">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
     <!-- Custom styles for this template -->
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -135,7 +119,7 @@ $vd = $vd[0];
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="house_nr">House number</label>
+                        <label for="houseNr">House number</label>
                         <input type="text" class="form-control" id="houseNr" name="house_nr" value="<?php echo htmlentities($row['house_nr'])?>" disabled>
                         <div class="invalid-feedback">
                             Valid House number is required.
@@ -145,7 +129,7 @@ $vd = $vd[0];
 
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <label for="zip_code">ZIP code</label>
+                        <label for="zipCode">ZIP code</label>
                         <input type="text" class="form-control" id="zipCode" name="zip_code" value="<?php echo htmlentities($row['zip_code'])?>" disabled>
                         <div class="invalid-feedback">
                             Valid ZIP Code is required.
@@ -172,8 +156,7 @@ $vd = $vd[0];
                         <label for="country">Country</label>
                         <select class="form-control" id="country" name="country" disabled>
                         <?php
-                        require_once HERE."/config.php";
-                        /** @noinspection PhpUndefinedVariableInspection */
+                        require_once dirname(__FILE__)."/../../config.php";
                         $f = fopen(ISO_CODES, 'r');
                         while(($csv = fgetcsv($f, 0, ";"))){
                             ?>
@@ -284,7 +267,13 @@ $vd = $vd[0];
                 <?php if(REQUIRE_TEST_DATE){ ?>
                     <div class="mb-3">
                         <label for="tdate">Test Date and Time</label>
-                        <input type="datetime-local" class="form-control" id="tdate" name="tdate" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && !is_null($vd['test_datetime']) ? "value='".(new DateTime($vd['test_datetime']))->format("Y-m-d\TH:i:s")."'" : ""; ?>>
+                        <input type="datetime-local" class="form-control" id="tdate" name="tdate"
+                            <?php echo $LOCKED ? "disabled" : ""; ?>
+                            <?php try {
+                            echo !is_null($vd) && !is_null($vd['test_datetime']) ?
+                                "value='" . (new DateTime($vd['test_datetime']))->format("Y-m-d\TH:i:s") . "'" : "";
+                        } catch (Exception $e) {
+                        } ?>>
                         <div class="invalid-feedback">
                             Please enter a valid date.
                         </div>

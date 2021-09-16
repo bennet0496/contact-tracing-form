@@ -17,22 +17,6 @@ require_once dirname(__FILE__)."/../../config.php";
 
     <!-- Favicons -->
     <meta name="theme-color" content="#563d7c">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
     <!-- Custom styles for this template -->
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -143,7 +127,7 @@ require_once dirname(__FILE__)."/../../config.php";
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="email" title="Email or Phonenumber are required">Email<span style="color: orange;">*</span></label>
-                        <input type="email" class="form-control" id="email" name="email" data-manyselect="contact" v onchange="togglePhone(this)" required>
+                        <input type="email" class="form-control" id="email" name="email" data-manyselect="contact" onchange="togglePhone(this)" required>
                         <div class="invalid-feedback">
                             Please enter a valid email address.
                         </div>
@@ -170,7 +154,7 @@ require_once dirname(__FILE__)."/../../config.php";
                 <?php if(REQUIRE_VACCINATION_STATUS){ ?>
                     <div class="mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="vaccinated" name="vaccinated" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && $vd['vaccination_status'] ? "checked" : ""; ?>>
+                            <input class="form-check-input" type="checkbox" id="vaccinated" name="vaccinated">
                             <label class="form-check-label" for="vaccinated" >
                                 Valid (Full) Vaccination Certification shown<br/>
                                 <small><i>1/1 for Janssen; 2/2 for Comirnaty (BioNTech), Spikevax (Moderna) and Vaxzevria (AstraZeneca)</i><br/>
@@ -182,7 +166,7 @@ require_once dirname(__FILE__)."/../../config.php";
                 <?php if(REQUIRE_VACCINATION_DATE){ ?>
                     <div class="mb-3">
                         <label for="vdate">Date of Full Vaccination</label>
-                        <input type="date" class="form-control" id="vdate" name="vdate" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && !is_null($vd['vaccination_date']) ? "value='".$vd['vaccination_date']."'" : ""; ?>>
+                        <input type="date" class="form-control" id="vdate" name="vdate">
                         <div class="invalid-feedback">
                             Please enter a valid date.
                         </div>
@@ -191,7 +175,7 @@ require_once dirname(__FILE__)."/../../config.php";
                 <?php if(REQUIRE_RECOVERY_STATUS){ ?>
                     <div class="mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="recovered" name="recovered" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && $vd['recovery_status'] ? "checked" : ""; ?>>
+                            <input class="form-check-input" type="checkbox" id="recovered" name="recovered" >
                             <label class="form-check-label" for="recovered">
                                 Valid Recovery Certification shown
                             </label>
@@ -201,7 +185,7 @@ require_once dirname(__FILE__)."/../../config.php";
                 <?php if(REQUIRE_RECOVERY_DATE){ ?>
                     <div class="mb-3">
                         <label for="rdate">Recovery Date</label>
-                        <input type="date" class="form-control" id="rdate" name="rdate" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && !is_null($vd['recovery_date']) ? "value='".$vd['recovery_date']."'" : ""; ?>>
+                        <input type="date" class="form-control" id="rdate" name="rdate">
                         <div class="invalid-feedback">
                             Please enter a valid date.
                         </div>
@@ -210,7 +194,7 @@ require_once dirname(__FILE__)."/../../config.php";
                 <?php if(REQUIRE_TEST_STATUS){ ?>
                     <div class="mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="tested" name="tested" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && $vd['test_status'] ? "checked" : ""; ?>>
+                            <input class="form-check-input" type="checkbox" id="tested" name="tested" >
                             <label class="form-check-label" for="tested">
                                 Valid negative test shown
                             </label>
@@ -220,7 +204,7 @@ require_once dirname(__FILE__)."/../../config.php";
                 <?php if(REQUIRE_TEST_DATE){ ?>
                     <div class="mb-3">
                         <label for="tdate">Test Date and Time</label>
-                        <input type="datetime-local" class="form-control" id="tdate" name="tdate" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && !is_null($vd['test_datetime']) ? "value='".(new DateTime($vd['test_datetime']))->format("Y-m-d\TH:i:s")."'" : ""; ?>>
+                        <input type="datetime-local" class="form-control" id="tdate" name="tdate" >
                         <div class="invalid-feedback">
                             Please enter a valid date.
                         </div>
@@ -231,9 +215,7 @@ require_once dirname(__FILE__)."/../../config.php";
                         <p>Test Agency</p>
                         <?php foreach (REQUIRE_TEST_AGENCY_OF as $key => $agency) { ?>
                             <input type="radio" class="form-check-input"
-                                   id="testAgency<?= $key; ?>" name="test_agency" value="<?= $agency; ?>"
-                                <?php if(!is_null($vd) && $vd['test_agency'] == $agency) echo "checked "; ?>
-                                <?php echo $LOCKED ? "disabled" : ""; ?>>
+                                   id="testAgency<?= $key; ?>" name="test_agency" value="<?= $agency; ?>">
                             <label class="form-check-label" for="testAgency<?= $key; ?>"><?= $agency; ?></label>
                         <?php } ?>
                     </div>
@@ -243,9 +225,7 @@ require_once dirname(__FILE__)."/../../config.php";
                         <p>Test Type</p>
                         <?php foreach (REQUIRE_TEST_TYPE_OF as $key => $tt) { ?>
                             <input type="radio" class="form-check-input"
-                                   id="testType<?= $key; ?>" name="test_type" value="<?= $tt; ?>"
-                                <?php if(!is_null($vd) && $vd['test_type'] == $tt) echo "checked "; ?>
-                                <?php echo $LOCKED ? "disabled" : ""; ?>>
+                                   id="testType<?= $key; ?>" name="test_type" value="<?= $tt; ?>">
                             <label class="form-check-label" for="testType<?= $key; ?>"><?= $tt; ?></label>
                         <?php } ?>
                     </div>
