@@ -3,7 +3,7 @@ ob_start();
 const INCLUDED = true;
 
 if(!session_start()){
-    header($_SERVER['SERVER_PROTOCOL']." 500 Internal Server Errror");
+    header($_SERVER['SERVER_PROTOCOL']." 500 Internal Server Error");
     ob_flush();
     die();
 }
@@ -11,7 +11,7 @@ if(!session_start()){
 $strong = false;
 $t = openssl_random_pseudo_bytes(16,$strong);
 if($t == false) {
-    header($_SERVER['SERVER_PROTOCOL']." 500 Internal Server Errror");
+    header($_SERVER['SERVER_PROTOCOL']." 500 Internal Server Error");
     ob_flush();
     die();
 }
@@ -25,6 +25,7 @@ if(isset($_SESSION['XSRF_TOKEN'])) {
 $_SESSION['XSRF_TOKEN'] = XSRF_TOKEN;
 
 require_once dirname(__FILE__) . "/include/audit/inc_audit_log_function.php";
+
 if(isset($_SESSION['userdata'])) {
     if (isset($_POST['submit']) && $_POST['submit'] != "back") {
         $in_token = filter_input(INPUT_GET, "xsrf", FILTER_SANITIZE_STRING);
@@ -33,12 +34,14 @@ if(isset($_SESSION['userdata'])) {
             ob_flush();
             exit(0);
         }
-        //submit is from search form
-        audit($_SESSION['userdata']['id'], "search", json_encode($_POST));
-        include_once dirname(__FILE__) . "/include/search/inc_search_list.php";
+
+        //submit from record
+        audit($_SESSION['userdata']['id'], "record", json_encode($_POST));
+        require_once dirname(__FILE__) . "/include/record/inc_record_form_submit.php";
+
     } else {
-        //show search from
-        include_once dirname(__FILE__) . "/include/search/inc_search_form.php";
+        //record form
+        require_once dirname(__FILE__) . "/include/record/inc_record_form.php";
     }
 } else {
     header("Location: login.php", true, 302);

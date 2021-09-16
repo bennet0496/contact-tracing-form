@@ -24,8 +24,8 @@ const MAIL_SERVER = "smtp.mailtrap.io";
 const MAIL_PORT = 2525;
 const MAIL_SSL = false;
 
-const MAIL_LOGIN = "***REMOVED***";
-const MAIL_PASSWORD = "***REMOVED***";
+const MAIL_LOGIN = "";
+const MAIL_PASSWORD = "";
 
 
 const TRUSTED_HOSTS = [];

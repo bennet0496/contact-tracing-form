@@ -5,6 +5,7 @@
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/chillerlan/php-settings-container" />
       <path value="$PROJECT_DIR$/vendor/chillerlan/php-qrcode" />
+      <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
@@ -28,11 +29,11 @@
       <extension name="curl" enabled="false" />
       <extension name="dba" enabled="false" />
       <extension name="decimal" enabled="false" />
+      <extension name="dio" enabled="false" />
       <extension name="dom" enabled="false" />
       <extension name="enchant" enabled="false" />
       <extension name="fann" enabled="false" />
       <extension name="ffmpeg" enabled="false" />
-      <extension name="gd" enabled="false" />
       <extension name="gearman" enabled="false" />
       <extension name="geoip" enabled="false" />
       <extension name="geos" enabled="false" />
@@ -43,17 +44,14 @@
       <extension name="http" enabled="false" />
       <extension name="ibm_db2" enabled="false" />
       <extension name="igbinary" enabled="false" />
-      <extension name="imagick" enabled="false" />
       <extension name="imap" enabled="false" />
       <extension name="inotify" enabled="false" />
       <extension name="interbase" enabled="false" />
-      <extension name="intl" enabled="false" />
       <extension name="judy" enabled="false" />
       <extension name="ldap" enabled="false" />
       <extension name="libevent" enabled="false" />
       <extension name="libsodium" enabled="false" />
       <extension name="mailparse" enabled="false" />
-      <extension name="mbstring" enabled="false" />
       <extension name="mcrypt" enabled="false" />
       <extension name="memcache" enabled="false" />
       <extension name="memcached" enabled="false" />
@@ -95,8 +93,8 @@
       <extension name="wddx" enabled="false" />
       <extension name="win32service" enabled="false" />
       <extension name="wincache" enabled="false" />
-      <extension name="xdebug" enabled="false" />
       <extension name="xhprof" enabled="false" />
+      <extension name="xlswriter" enabled="false" />
       <extension name="xml" enabled="false" />
       <extension name="xmlreader" enabled="false" />
       <extension name="xmlrpc" enabled="false" />
@@ -107,5 +105,10 @@
       <extension name="zip" enabled="false" />
       <extension name="zmq" enabled="false" />
     </extensions>
+  </component>
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/vendor/autoload.php" />
+    </phpunit_settings>
   </component>
 </project>
