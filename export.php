@@ -24,22 +24,26 @@ if(isset($_SESSION['XSRF_TOKEN'])) {
 }
 $_SESSION['XSRF_TOKEN'] = XSRF_TOKEN;
 
-require_once dirname(__FILE__) . "/include/audit/inc_audit_log_function.php";
+require_once dirname(__FILE__)."/include/audit/inc_audit_log_function.php";
+
 if(isset($_SESSION['userdata'])) {
-    if (isset($_POST['submit']) && $_POST['submit'] != "back") {
-        $in_token = filter_input(INPUT_GET, "xsrf", FILTER_SANITIZE_STRING);
-        if ($in_token != $OLD_TOKEN) {
-            require_once dirname(__FILE__) . "/xsrf_error.php";
-            ob_flush();
-            exit(0);
-        }
-        //submit is from search form
-        audit($_SESSION['userdata']['id'], "search", json_encode($_POST));
-        include_once dirname(__FILE__) . "/include/search/inc_search_list.php";
-    } else {
-        //show search from
-        include_once dirname(__FILE__) . "/include/search/inc_search_form.php";
+
+    $in_token = filter_input(INPUT_GET, "xsrf", FILTER_SANITIZE_STRING);
+    if ($in_token != $OLD_TOKEN) {
+        require_once dirname(__FILE__) . "/xsrf_error.php";
+        ob_flush();
+        exit(0);
     }
+
+    if(isset($_POST['submit']) && $_POST['submit'] == "submit"){
+        //submit is from search form
+        audit($_SESSION['userdata']['id'], "export", json_encode($_POST));
+        include_once dirname(__FILE__) . "/include/export/inc_export_export.php";
+    } else {
+        //submit is from search form
+        include_once dirname(__FILE__) . "/include/export/inc_export_form.php";
+    }
+
 } else {
     header("Location: login.php", true, 302);
     ob_flush();

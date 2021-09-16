@@ -1,5 +1,12 @@
 {
     "require": {
-        "chillerlan/php-qrcode": "^4.2"
+        "chillerlan/php-qrcode": "^4.2",
+      "phpmailer/phpmailer": "^6.5",
+      "ext-mysqli": "*",
+      "ext-openssl": "*",
+      "ext-json": "*",
+      "ext-readline": "*",
+      "ext-gettext": "*",
+      "ext-intl": "*"
     }
 }
