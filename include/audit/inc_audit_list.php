@@ -62,7 +62,7 @@ $result = $stmt->get_result();
 <body class="bg-light">
 <div class="container">
     <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/img/logo-startpage.png" alt="" height="72">
+        <img class="d-block mx-auto mb-4" src="<?= LOGO_WEB_PATH ?>" alt="" height="72">
         <h2>AUDIT LOG</h2>
         <p class="lead">
             <i class="bi bi-card-list" style="font-size: 48px"></i>

@@ -41,7 +41,7 @@ if(!defined("INCLUDED"))
 <body class="bg-light">
 <div class="container">
     <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/img/logo-startpage.png" alt="" height="72">
+        <img class="d-block mx-auto mb-4" src="<?= LOGO_WEB_PATH ?>" alt="" height="72">
         <h2>Verification form</h2>
         <p class="lead">
             <i class="bi bi-person-check" style="font-size: 48px"></i>
