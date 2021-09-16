@@ -35,10 +35,14 @@ if(count($vd) > 0){
     $LOCKED = false;
 }
 
-if ($error) {
+if ($error || count($vd) > 1) {
     require_once HERE."/error.php";
     die();
 }
+
+$vd = $vd[0];
+
+//error_log(print_r($vd, true));
 ?>
 <html lang="en">
 <head>

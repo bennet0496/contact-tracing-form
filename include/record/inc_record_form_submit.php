@@ -2,10 +2,10 @@
 if(!defined("INCLUDED"))
     die();
 
-require_once dirname(__FILE__)."/config.php";
+require_once dirname(__FILE__)."/../../config.php";
 
 /** @noinspection PhpUndefinedVariableInspection */
-$mysqli = new mysqli($DB_SERVER, $DB_USER, $DB_PASS, $DB_NAME);
+$mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
 $uuid = $mysqli->query("SELECT UUID()")->fetch_row()[0];
 
@@ -20,10 +20,15 @@ $inputs = filter_input_array(INPUT_POST, array(
     'country' => FILTER_SANITIZE_STRING,
     'email' => FILTER_SANITIZE_EMAIL,
     'phonenumber' => FILTER_SANITIZE_STRING,
+    'data_correct' => FILTER_SANITIZE_STRING,
     'vaccinated' => FILTER_SANITIZE_STRING,
     'vdate' => FILTER_SANITIZE_STRING,
     'recovered' => FILTER_SANITIZE_STRING,
     'rdate' => FILTER_SANITIZE_STRING,
+    'tested' => FILTER_SANITIZE_STRING,
+    'tdate' => FILTER_SANITIZE_STRING,
+    'test_agency' => FILTER_SANITIZE_STRING,
+    'test_type' => FILTER_SANITIZE_STRING,
     'chip' => FILTER_VALIDATE_INT,
     'privacy_policy' => FILTER_SANITIZE_STRING,
 ));
@@ -95,34 +100,60 @@ $row_person = $result->fetch_assoc();
 $null = null;
 
 if ($error) {
-    require_once dirname(__FILE__)."/error.php";
+    require_once HERE."/error.php";
     die();
 }
 
-if (!($stmt = $mysqli->prepare("INSERT INTO verification_data(id, aid, vaccination_date, recovery_date, privacy_policy) VALUES (NULL, ?, ?, ?, ?)"))) {
+if (!($stmt = $mysqli->prepare(
+    "INSERT INTO verification_data(id, aid, vaccination_status, vaccination_date, recovery_status, recovery_date, test_status, test_datetime, test_type, test_agency, privacy_policy) 
+            VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"))) {
     $error = true;
     array_push($errors, "Error saving to database (verification_data) " . $mysqli->errno);
 }
 
-$v = isset($inputs['vaccinated']) && ($inputs['vaccinated'] == "Yes" ||
+$pp = isset($inputs['privacy_policy']) && ($inputs['privacy_policy'] == "Yes" ||
+        $inputs['privacy_policy'] == "yes" ||
+        $inputs['privacy_policy'] == "On" ||
+        $inputs['privacy_policy'] == "on" ||
+        $inputs['privacy_policy'] == "1");
+$vacced = isset($inputs['vaccinated']) && ($inputs['vaccinated'] == "Yes" ||
         $inputs['vaccinated'] == "yes" ||
         $inputs['vaccinated'] == "On" ||
         $inputs['vaccinated'] == "on" ||
-        $inputs['vaccinated'] == "1") ? $inputs['vdate'] : $null;
-$r = isset($inputs['recovered']) && ($inputs['recovered'] == "Yes" ||
+        $inputs['vaccinated'] == "1");
+
+$recct = isset($inputs['recovered']) && ($inputs['recovered'] == "Yes" ||
         $inputs['recovered'] == "yes" ||
         $inputs['recovered'] == "On" ||
         $inputs['recovered'] == "on" ||
-        $inputs['recovered'] == "1") ? $inputs['rdate'] : $null;
+        $inputs['recovered'] == "1");
 
-if (!$stmt->bind_param("issi", $row_person['id'], $v , $r , $pp)) {
+$tested = isset($inputs['tested']) && ($inputs['tested'] == "Yes" ||
+        $inputs['tested'] == "yes" ||
+        $inputs['tested'] == "On" ||
+        $inputs['tested'] == "on" ||
+        $inputs['tested'] == "1");
+
+foreach ($inputs as &$i) {
+    if(empty($i)){
+        $i = null;
+    }
+}
+if (!$stmt->bind_param("iisisisssi",
+    $row_person['id'],
+    $vacced, $inputs['vdate'] ,
+    $recct, $inputs['rdate'],
+    $tested, $inputs['tdate'],
+    $inputs['test_type'], $inputs['test_agency'], $pp)) {
     $error = true;
     error_log("person ".print_r($row_person, true));
     array_push($errors, "Error saving to database (verification_data) " . $mysqli->error);
 }
+
 if (!$stmt->execute()) {
     $error = true;
     error_log("person ".print_r($row_person, true));
+    error_log("person ".print_r($inputs, true));
     array_push($errors, "Error saving to database (verification_data) " . $mysqli->error);
 }
 
@@ -130,7 +161,7 @@ $stmt->close();
 
 if ($error) {
     error_log(print_r($errors, true));
-    require_once dirname(__FILE__)."/error.php";
+    require_once HERE."/error.php";
     die();
 }
 
@@ -149,7 +180,7 @@ if(!$stmt->execute()){
 $stmt->close();
 
 if ($error) {
-    require_once dirname(__FILE__)."/error.php";
+    require_once HERE."/error.php";
     die();
 }
 
@@ -168,7 +199,7 @@ if(!$stmt->execute()){
 $stmt->close();
 
 if ($error) {
-    require_once dirname(__FILE__)."/error.php";
+    require_once HERE."/error.php";
     die();
 }
 

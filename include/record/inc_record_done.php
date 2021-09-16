@@ -44,7 +44,7 @@
     </div>
 
     <div class="row">
-        <?php require_once dirname(__FILE__)."/inc_sidebar.php"?>
+        <?php require_once HERE."/include/inc_sidebar.php"?>
         <div class="col-md-8 order-md-1">
             <div class="alert alert-success" role="alert">
                 Successfully recorded person. Refreshing in <span id="timer">5</span>...
@@ -65,7 +65,7 @@
         }
         setTimeout(countd, 1000);
     </script>
-    <?php require_once dirname(__FILE__)."/inc_footer.php"; ?>
+    <?php require_once HERE."/include/inc_footer.php"; ?>
 </div>
 <script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
 

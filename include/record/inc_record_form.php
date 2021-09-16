@@ -167,44 +167,95 @@ require_once dirname(__FILE__)."/../../config.php";
                         </label>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="vaccinated" name="vaccinated" autocomplete="nope">
-                        <label class="form-check-label" for="vaccinated" >
-                            Valid (Full) Vaccination Certification shown<br/>
-                            <small><i>1/1 for Janssen; 2/2 for Comirnaty (BioNTech), Spikevax (Moderna) and Vaxzevria (AstraZeneca)</i><br/>
-                                No other vaccine is considered Valid by <a href="https://www.pei.de/DE/arzneimittel/impfstoffe/covid-19/covid-19-node.html" target="_blank">STIKO and PEI</a></small>
-                        </label>
+                <?php if(REQUIRE_VACCINATION_STATUS){ ?>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="vaccinated" name="vaccinated" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && $vd['vaccination_status'] ? "checked" : ""; ?>>
+                            <label class="form-check-label" for="vaccinated" >
+                                Valid (Full) Vaccination Certification shown<br/>
+                                <small><i>1/1 for Janssen; 2/2 for Comirnaty (BioNTech), Spikevax (Moderna) and Vaxzevria (AstraZeneca)</i><br/>
+                                    No other vaccine is considered Valid by <a href="https://www.pei.de/DE/arzneimittel/impfstoffe/covid-19/covid-19-node.html" target="_blank">STIKO and PEI</a></small>
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label for="vdate">Date of Full Vaccination</label>
-                    <input type="date" class="form-control" id="vdate" name="vdate" autocomplete="nope">
-                    <div class="invalid-feedback">
-                        Please enter a valid date.
+                <?php } ?>
+                <?php if(REQUIRE_VACCINATION_DATE){ ?>
+                    <div class="mb-3">
+                        <label for="vdate">Date of Full Vaccination</label>
+                        <input type="date" class="form-control" id="vdate" name="vdate" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && !is_null($vd['vaccination_date']) ? "value='".$vd['vaccination_date']."'" : ""; ?>>
+                        <div class="invalid-feedback">
+                            Please enter a valid date.
+                        </div>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="recovered" name="recovered" autocomplete="nope">
-                        <label class="form-check-label" for="recovered">
-                            Valid Recovery Certification shown
-                        </label>
+                <?php } ?>
+                <?php if(REQUIRE_RECOVERY_STATUS){ ?>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="recovered" name="recovered" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && $vd['recovery_status'] ? "checked" : ""; ?>>
+                            <label class="form-check-label" for="recovered">
+                                Valid Recovery Certification shown
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label for="rdate">Recovery Date</label>
-                    <input type="date" class="form-control" id="rdate" name="rdate" autocomplete="nope">
-                    <div class="invalid-feedback">
-                        Please enter a valid email address.
+                <?php } ?>
+                <?php if(REQUIRE_RECOVERY_DATE){ ?>
+                    <div class="mb-3">
+                        <label for="rdate">Recovery Date</label>
+                        <input type="date" class="form-control" id="rdate" name="rdate" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && !is_null($vd['recovery_date']) ? "value='".$vd['recovery_date']."'" : ""; ?>>
+                        <div class="invalid-feedback">
+                            Please enter a valid date.
+                        </div>
                     </div>
-                </div>
-                <hr class="mb-4">
+                <?php } ?>
+                <?php if(REQUIRE_TEST_STATUS){ ?>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="tested" name="tested" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && $vd['test_status'] ? "checked" : ""; ?>>
+                            <label class="form-check-label" for="tested">
+                                Valid negative test shown
+                            </label>
+                        </div>
+                    </div>
+                <?php } ?>
+                <?php if(REQUIRE_TEST_DATE){ ?>
+                    <div class="mb-3">
+                        <label for="tdate">Test Date and Time</label>
+                        <input type="datetime-local" class="form-control" id="tdate" name="tdate" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && !is_null($vd['test_datetime']) ? "value='".(new DateTime($vd['test_datetime']))->format("Y-m-d\TH:i:s")."'" : ""; ?>>
+                        <div class="invalid-feedback">
+                            Please enter a valid date.
+                        </div>
+                    </div>
+                <?php } ?>
+                <?php if(!empty(REQUIRE_TEST_AGENCY_OF)){ ?>
+                    <div class="mb-3">
+                        <p>Test Agency</p>
+                        <?php foreach (REQUIRE_TEST_AGENCY_OF as $key => $agency) { ?>
+                            <input type="radio" class="form-check-input"
+                                   id="testAgency<?= $key; ?>" name="test_agency" value="<?= $agency; ?>"
+                                <?php if(!is_null($vd) && $vd['test_agency'] == $agency) echo "checked "; ?>
+                                <?php echo $LOCKED ? "disabled" : ""; ?>>
+                            <label class="form-check-label" for="testAgency<?= $key; ?>"><?= $agency; ?></label>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+                <?php if(!empty(REQUIRE_TEST_TYPE_OF)){ ?>
+                    <div class="mb-3">
+                        <p>Test Type</p>
+                        <?php foreach (REQUIRE_TEST_TYPE_OF as $key => $tt) { ?>
+                            <input type="radio" class="form-check-input"
+                                   id="testType<?= $key; ?>" name="test_type" value="<?= $tt; ?>"
+                                <?php if(!is_null($vd) && $vd['test_type'] == $tt) echo "checked "; ?>
+                                <?php echo $LOCKED ? "disabled" : ""; ?>>
+                            <label class="form-check-label" for="testType<?= $key; ?>"><?= $tt; ?></label>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+                <!--<hr class="mb-4">
                 <h3>Chip</h3>
                 <div class="mb-3">
                     <label for="chip">Chip number</label>
                     <input type="text" class="form-control" id="chip" name="chip" autocomplete="nope">
-                </div>
+                </div>-->
                 <hr class="mb-4">
                 <div class="mb-3">
                     <div class="form-check">
