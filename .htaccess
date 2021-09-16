@@ -1,0 +1,13 @@
+<Files "config.php" >
+Require all denied
+</Files>
+<Files "ddl.sql" >
+Require all denied
+</Files>
+
+<Files ~ "^.*\.json$" >
+Require all denied
+</Files>
+<Files ~ "^.*\.lock$" >
+Require all denied
+</Files>
