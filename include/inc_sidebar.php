@@ -3,7 +3,7 @@ if (!defined("INCLUDED"))
     die();
 
 ?>
-<div class="col-md-4 order-md-2 mb-4">
+<div class="col-md-4 order-md-2 mb-4 d-print-none">
     <p class="text-muted text-small px-1">Logged in as <?php echo $_SESSION['userdata']['common_name'];?><br /><a href="logout.php">Logout</a></p>
     <div class="list-group mb-3">
         <a class="list-group-item d-flex justify-content-between lh-condensed" href="record.php">

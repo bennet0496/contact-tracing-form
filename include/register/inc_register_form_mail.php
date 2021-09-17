@@ -4,6 +4,8 @@ if(!defined("INCLUDED"))
 
 require_once dirname(__FILE__)."/../../config.php";
 
+require_once HERE."/include/functions.php";
+
 /** @noinspection PhpUndefinedVariableInspection */
 $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
@@ -17,73 +19,16 @@ $inputs = filter_input_array(INPUT_POST, array(
 $error = false;
 $errors = array();
 
-//$id = $mysqli->query("SELECT id from attendees WHERE uuid = \"".$uuid."\"")->fetch_row()[0];
-if(!($stmt = $mysqli->prepare("SELECT * FROM attendees WHERE uuid = ?"))){
-    $error = true;
-    array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
-}
-if(!$stmt->bind_param("s", $inputs['uuid'])){
-    $error = true;
-    array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
-}
-if(!$stmt->execute()){
-    $error = true;
-    array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
-}
-if(!($result = $stmt->get_result())){
-    $error = true;
-    array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
+try {
+    $row = get_attendee_by_uuid($mysqli, $inputs['uuid']);
+    $challenge = get_attendee_challenges($mysqli, $row['id']);
+}catch (Exception $e){
+    saveDie();
 }
 
-if ($result->num_rows != 1) {
-    error_log(print_r($result->fetch_all(), true));
-    require_once HERE . "/error.php";
-    die();
-}
-
-$row = $result->fetch_assoc();
-
-if ($error) {
-    error_log(print_r($errors, true));
-    require_once HERE."/error.php";
-    die();
-}
-
-if(!($stmt = $mysqli->prepare("SELECT * FROM detail_verification WHERE user = ?"))){
-    $error = true;
-    array_push($errors, "Error getting result (detail_verification) ".$mysqli->errno);
-}
-if(!$stmt->bind_param("i", $row['id'])){
-    $error = true;
-    array_push($errors, "Error getting result (detail_verification) ".$mysqli->errno);
-}
-if(!$stmt->execute()){
-    $error = true;
-    array_push($errors, "Error getting result (detail_verification) ".$mysqli->errno);
-}
-if(!($result = $stmt->get_result())){
-    $error = true;
-    array_push($errors, "Error getting result (detail_verification) ".$mysqli->errno);
-}
-
-$data = $result->fetch_all(MYSQLI_ASSOC);
-
-//error_log(print_r($data, true));
-//error_log(print_r($errors, true));
-
-$challenge = [];
-$i = 0;
-
-foreach ($data as $d) {
-    if($d['credential'] == "EMAIL") {
-        $challenge[$i] = trim($d['challenge']);
-        $i++;
-    }
-}
-
+/** @noinspection PhpUndefinedVariableInspection */
 if(is_null($challenge)){
-    require_once HERE . "/error.php";
-    die();
+    saveDie();
 }
 
 if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
@@ -97,7 +42,9 @@ if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
     $row["email"] = $row['email'] != "" ? htmlentities($row['email']) : "N/A";
     $row["phonenumber"] = $row['phonenumber'] != "" ? htmlentities($row['phonenumber']) : "N/A";
 
-    $css = file_get_contents(HERE."/css/bootstrap-mail.min.css");
+    $css = file_get_contents(HERE."/css/bootstrap.min.css");
+
+    $EVENT_NAME = EVENT_NAME;
     /**
      * @noinspection PhpUndefinedVariableInspection
      */
@@ -178,65 +125,27 @@ if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
 </body>
 </html>
 EOH;
-    $mail = new \PHPMailer\PHPMailer\PHPMailer(false);
-    //$mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
-    $mail->isSMTP();
-    $mail->Host = MAIL_SERVER;
-    $mail->SMTPAuth = !empty(MAIL_LOGIN) && !empty(MAIL_PASSWORD);
-    $mail->Username = MAIL_LOGIN;
-    $mail->Password = MAIL_PASSWORD;
-    $mail->SMTPSecure = MAIL_SSL ? \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS : '';
+    try {
+        $mail = setupMail($row['email'], $row['given_name'] . " " . $row['surname']);
+        $mail->addEmbeddedImage(LOGO_FS_PATH, "logo.png", "logo.png");
+        $mail->addEmbeddedImage($qr, "qrcode.png", "qrcode.png");
 
-    /** @noinspection PhpUndefinedVariableInspection */
-    $mail->setFrom(MAIL_FROM);
-    $mail->addAddress($row['email'], $row['given_name']. " " . $row['surname']);
-    $mail->addEmbeddedImage(LOGO_FS_PATH, "logo.png", "logo.png");
-    $mail->addEmbeddedImage($qr, "qrcode.png", "qrcode.png");
+        $mail->isHTML(true);
+        $mail->Subject = ORGANISATION." Registration Data";
+        $mail->Body = $html;
+        $mail->AltBody = "Please enable HTML to view this message.".
+            " Or download and show the qrcode.png attachment while verification";
 
-    $mail->isHTML(true);
-    $mail->Subject = ORGANISATION." Registration Data";
-    $mail->Body = $html;
-    $mail->AltBody = "Please enable HTML to view this message.".
-        " Or download and show the qrcode.png attachment while verification";
+        $mail->send();
+    } catch (\PHPMailer\PHPMailer\Exception $e) {
+        saveDie();
+    }
 
-    $mail->send();
 
     unlink($qr);
     ?>
     <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-        <meta name="generator" content="Jekyll v4.1.1">
-        <title>COVID Contact tracing checkin</title>
-
-        <!-- Bootstrap core CSS -->
-        <link href="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Favicons -->
-        <meta name="theme-color" content="#563d7c">
-        <style>
-            .bd-placeholder-img {
-                font-size: 1.125rem;
-                text-anchor: middle;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-            }
-
-            @media (min-width: 768px) {
-                .bd-placeholder-img-lg {
-                    font-size: 3.5rem;
-                }
-            }
-        </style>
-        <!-- Custom styles for this template -->
-        <link href="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
-        <link href="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    </head>
+    <?php require_once HERE."/include/inc_html_head.php"; ?>
 
     <body class="bg-light">
     <div class="container">
@@ -249,7 +158,7 @@ EOH;
         </div>
 
         <div class="row">
-            <div class="col-md-12 order-md-1">
+            <div class="col-md-8 offset-md-2 order-md-1">
                 <div class="alert alert-success" role="alert">
                     Successfully sent email. Refreshing in <span id="timer">5</span>...
                 </div>
@@ -271,38 +180,11 @@ EOH;
         </script>
         <?php require_once HERE."/include/inc_footer.php"; ?>
     </div>
-    <script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
-
-    <script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
-
-    <!--suppress JSUnresolvedVariable -->
-    <script>
-        jQuery(function ($) {
-            // get anything with the data-manyselect
-            // you don't even have to name your group if only one group
-            var $group = $("[data-manyselect]");
-
-            $group.on('input', function () {
-                var group = $(this).data('manyselect');
-                // set required property of other inputs in group to false
-                var allInGroup = $('*[data-manyselect="'+group+'"]');
-                // Set the required property of the other input to false if this input is not empty.
-                var oneSet = true;
-                $(allInGroup).each(function(){
-                    if ($(this).val() !== "")
-                        oneSet = false;
-                });
-                $(allInGroup).prop('required', oneSet)
-            });
-        });
-    </script>
-    <script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/form-validation.js"></script>
-
+    <?php require_once HERE."/include/inc_post_content.php"?>
     </body>
     </html>
 
     <?php
  } else {
-    require_once HERE."/error.php";
-    die();
+    saveDie();
 } ?>

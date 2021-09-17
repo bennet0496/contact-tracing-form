@@ -25,9 +25,14 @@ error_log($locale);
     </div>
 
     <div class="row">
-        <div class="col-md-12 order-md-1">
+        <div class="col-md-8 order-md-1 offset-md-2">
             <h4 class="mb-3"><?= LANG("Core data") ?>&nbsp;<span></span></h4>
             <form class="needs-validation" novalidate="" method="POST" action="<?= $_SERVER['PHP_SELF']; ?>">
+                <?php if(defined("ERROR")){ ?>
+                <div class="alert alert-danger" role="alert">
+                    <?= LANG("The from contains errors");?>
+                </div>
+                <?php } ?>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="firstName"><?= LANG("First name");?><span style="color: red;">*</span></label>
@@ -175,34 +180,7 @@ error_log($locale);
 
     <?php require_once HERE."/include/inc_footer.php"; ?>
 </div>
-<script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
-
-<script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
-
-<!--suppress JSUnresolvedVariable -->
-<script>
-    jQuery(function ($) {
-        // get anything with the data-manyselect
-        // you don't even have to name your group if only one group
-        var $group = $("[data-manyselect]");
-
-        $group.on('input', function () {
-            var group = $(this).data('manyselect');
-            // set required property of other inputs in group to false
-            var allInGroup = $('*[data-manyselect="'+group+'"]');
-            // Set the required property of the other input to false if this input is not empty.
-            var oneSet = true;
-            $(allInGroup).each(function(){
-                if ($(this).val() !== "")
-                    oneSet = false;
-            });
-            $(allInGroup).prop('required', oneSet)
-        });
-    });
-
-</script>
-<script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/form-validation.js"></script>
-
+<?php require_once HERE."/include/inc_post_content.php"?>
 </body>
 </html>
 

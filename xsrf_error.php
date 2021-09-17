@@ -16,22 +16,6 @@ ob_flush();
 
     <!-- Favicons -->
     <meta name="theme-color" content="#563d7c">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
     <!-- Custom styles for this template -->
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/style.css" rel="stylesheet">
@@ -41,7 +25,7 @@ ob_flush();
 <body class="bg-light">
 <div class="container">
     <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/img/logo-startpage.png" alt="" height="72">
+        <img class="d-block mx-auto mb-4" src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/img/logo.png" alt="" height="72">
         <h2>XSRF-Token Error</h2>
         <p class="lead">
             <i class="bi bi-exclamation-octagon-fill" style="font-size: 48px"></i>
@@ -65,7 +49,7 @@ ob_flush();
         <li class="list-inline-item"><a href="#">Support</a></li>
     </ul>
 </footer>
-</div>
+
 <script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
 
 <script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>

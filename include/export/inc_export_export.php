@@ -6,7 +6,7 @@ if(!defined("INCLUDED"))
 
 require_once dirname(__FILE__)."/../../config.php";
 
-/** @noinspection PhpUndefinedVariableInspection */
+
 $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
 $inputs = filter_input_array(INPUT_POST, array(
@@ -46,39 +46,7 @@ error_log(print_r($inputs, true));
 
 ?>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
-    <title>COVID Contact tracing checkin</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Favicons -->
-    <meta name="theme-color" content="#563d7c">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-    <!-- Custom styles for this template -->
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-</head>
+<?php require_once HERE."/include/inc_html_head.php"; ?>
 
 <body class="bg-light">
 <div class="container">
@@ -93,7 +61,7 @@ error_log(print_r($inputs, true));
     <div class="row">
         <?php require_once HERE."/include/inc_sidebar.php"?>
         <div class="col-md-8 order-md-1">
-            <form class="" novalidate="" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>?xsrf=<?php echo XSRF_TOKEN;?>">
+            <form class="d-print-none" novalidate="" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>?xsrf=<?php echo XSRF_TOKEN;?>">
                 <div class="form-row row">
                     <div class="form-group col-md-6">
                         <label class="" for="from">From</label>
@@ -196,22 +164,20 @@ error_log(print_r($inputs, true));
                 } ?>
                 </textarea>
             <?php } else if($inputs['format'] == "show") {?>
-                <table class="table table-sm table-hover">
-                    <thead>
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-dark" style="background: #1b1e21; color: lightgray">
                     <tr>
-                        <th class="col col-sm-4" >Name</th>
+                        <th class="col col-sm-3" >Name</th>
                         <th class="col col-sm-4" colspan="2">Address</th>
-                        <th class="col col-sm-4">Contact Info</th>
+                        <th class="col col-sm-5">Contact Info</th>
                     </tr>
                     <tr>
-                        <th class="col col-sm-4" colspan="1">V. Status</th>
-                        <th class="col col-sm-8" colspan="3">Vaccination Date</th>
+                        <th class="col col-sm-3" colspan="1">V. Status</th>
+                        <th class="col col-sm-3" colspan="1">Vaccination Date</th>
+                        <th class="col col-sm-3" colspan="1">R. Status</th>
+                        <th class="col col-sm-3" colspan="1">Recovery Date</th>
                     </tr>
-                    <tr>
-                        <th class="col col-sm-4" colspan="1">R. Status</th>
-                        <th class="col col-sm-7" colspan="3">Recovery Date</th>
-                    </tr>
-                    <tr>
+                    <tr style="border-bottom-width: thick;">
                         <th class="col col-sm-3" >T. Status</th>
                         <th class="col col-sm-3" >Test Date</th>
                         <th class="col col-sm-3" >Test Type</th>
@@ -229,13 +195,11 @@ error_log(print_r($inputs, true));
                         </tr>
                         <tr <?php echo $counter % 2 ? "class='bg-white'" : ""; ?>>
                             <td colspan="1"><?= $row['vaccination_status'] ? "vaccinated" : "no" ;?></td>
-                            <td colspan="3"><?= $row['vaccination_date'];?></td>
-                        </tr>
-                        <tr <?php echo $counter % 2 ? "class='bg-white'" : ""; ?>>
+                            <td colspan="1"><?= $row['vaccination_date'];?></td>
                             <td colspan="1"><?= $row['recovery_status'] ? "recovered" : "no" ;?></td>
-                            <td colspan="3"><?= $row['recovery_date'];?></td>
+                            <td colspan="1"><?= $row['recovery_date'];?></td>
                         </tr>
-                        <tr <?php echo $counter % 2 ? "class='bg-white'" : ""; ?>>
+                        <tr <?php echo $counter % 2 ? "class='bg-white'" : ""; ?> style="border-bottom-width: thick;">
                             <td colspan="1"><?= $row['test_status'] ? "tested" : "no" ;?></td>
                             <td colspan="1"><?= $row['test_datetime'];?></td>
                             <td colspan="1"><?= $row['test_type'];?></td>
@@ -252,37 +216,15 @@ error_log(print_r($inputs, true));
 
     <?php require_once HERE."/include/inc_footer.php"; ?>
 </div>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
-
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
-
-<!--suppress JSUnresolvedVariable -->
+<?php require_once HERE."/include/inc_post_content.php"?>
 <script>
     jQuery(function ($) {
 
-        $('#to').val(new Date("<?= $inputs['to'] ?>").toISOString().slice(0,-1));
-        $('#from').val((new Date("<?= $inputs['from'] ?>")).toISOString().slice(0,-1));
+        $('#to').val(new Date().toISOString().slice(0,-1));
+        $('#from').val((new Date(Date.now() - 86400000)).toISOString().slice(0,-1));
 
-        // get anything with the data-manyselect
-        // you don't even have to name your group if only one group
-        var $group = $("[data-manyselect]");
-
-        $group.on('input', function () {
-            var group = $(this).data('manyselect');
-            // set required property of other inputs in group to false
-            var allInGroup = $('*[data-manyselect="'+group+'"]');
-            // Set the required property of the other input to false if this input is not empty.
-            var oneSet = true;
-            $(allInGroup).each(function(){
-                if ($(this).val() !== "")
-                    oneSet = false;
-            });
-            $(allInGroup).prop('required', oneSet)
-        });
     });
 </script>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/form-validation.js"></script>
-
 </body>
 </html>
 

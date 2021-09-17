@@ -3,8 +3,7 @@ if(!defined("INCLUDED"))
     die();
 
 require_once dirname(__FILE__)."/../../config.php";
-
-require_once dirname(__FILE__)."/../../config.php";
+require_once HERE."/include/functions.php";
 
 $locale = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 error_log($locale);
@@ -57,41 +56,17 @@ if ($error) {
     die();
 }
 
-if(!($stmt = $mysqli->prepare("SELECT * FROM detail_verification WHERE user = ?"))){
-    $error = true;
-    array_push($errors, "Error getting result (detail_verification) ".$mysqli->errno);
-}
-if(!$stmt->bind_param("i", $row['id'])){
-    $error = true;
-    array_push($errors, "Error getting result (detail_verification) ".$mysqli->errno);
-}
-if(!$stmt->execute()){
-    $error = true;
-    array_push($errors, "Error getting result (detail_verification) ".$mysqli->errno);
-}
-if(!($result = $stmt->get_result())){
-    $error = true;
-    array_push($errors, "Error getting result (detail_verification) ".$mysqli->errno);
+
+try {
+    $challenge = get_attendee_challenges($mysqli, $row['id']);
+} catch (Exception $e) {
+    saveDie();
 }
 
-$data = $result->fetch_all(MYSQLI_ASSOC);
 
-//error_log(print_r($data, true));
-//error_log(print_r($errors, true));
-
-$challenge = [];
-$i = 0;
-
-foreach ($data as $d) {
-    if($d['credential'] == "EMAIL") {
-        $challenge[$i] = trim($d['challenge']);
-        $i++;
-    }
-}
-
+/** @noinspection PhpUndefinedVariableInspection */
 if(is_null($challenge)){
-    require_once HERE . "/error.php";
-    die();
+    saveDie();
 }
 
 if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
@@ -121,18 +96,18 @@ if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
 <?php require_once HERE."/include/inc_html_head.php"?>
 
 <body class="bg-light">
-<div class="container-sm">
+<div class="container">
     <div class="py-sm-5 row">
-        <div class="col-md-12 col-6 text-center">
+        <div class="col-md-12 col-12 text-center">
             <img class="d-block mx-auto mb-4" src="<?= LOGO_WEB_PATH; ?>" alt="" height="72">
             <h2><?php /** @noinspection PhpUndefinedVariableInspection */
-                echo $EVENT_NAME; ?></h2>
+                echo EVENT_NAME; ?></h2>
             <p class="lead"><?= LANG("User Details");?></p>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12 col-6">
+        <div class="col-md-8 col-8 offset-2 offset-md-2">
             <div class="row">
                 <div class="col mb-3 text-center">
                     <img src="<?php /** @noinspection PhpUndefinedVariableInspection */
@@ -181,20 +156,20 @@ EOT );
             <hr class="mb-4 d-print-none">
             <div class="row">
                 <div class="col-md-6">
-                    <button class="btn btn-primary btn-lg btn-block d-print-none" onclick="window.print()"><?= LANG("Print");?></button>
+                    <button class="btn btn-primary btn-lg btn-block d-print-none col-12" onclick="window.print()"><?= LANG("Print");?></button>
                 </div>
                 <div class="col-md-6">
                     <form method="POST" action="<?= $_SERVER['PHP_SELF']; ?>">
                         <input type="hidden" name="uuid" value="<?= $row['uuid'];?>">
                         <input type="hidden" name="code" value="<?= htmlentities($inputs['code']);?>">
-                        <button class="btn btn-outline-primary btn-lg btn-block d-print-none" type="submit" name="submit" value="mail"><?= LANG("Send via email");?></button>
+                        <button class="btn btn-outline-primary btn-lg btn-block d-print-none col-12" type="submit" name="submit" value="mail"><?= LANG("Send via email");?></button>
                     </form>
                 </div>
             </div>
             <div>&nbsp;</div>
             <div class="row">
                 <div class="col-md-12">
-                    <button class="btn btn-secondary btn-lg btn-block d-print-none" onclick="window.location.assign(window.location.href)"><?= LANG("Done");?></button>
+                    <button class="btn btn-secondary btn-lg btn-block d-print-none col-12" onclick="window.location.assign(window.location.href)"><?= LANG("Done");?></button>
                 </div>
             </div>
             <div>&nbsp;</div>
@@ -209,39 +184,7 @@ EOT );
 </html>
 <?php } else { ?>
     <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-        <meta name="generator" content="Jekyll v4.1.1">
-        <title>COVID Contact tracing checkin</title>
-
-        <!-- Bootstrap core CSS -->
-        <link href="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Favicons -->
-        <meta name="theme-color" content="#563d7c">
-        <style>
-            .bd-placeholder-img {
-                font-size: 1.125rem;
-                text-anchor: middle;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-            }
-
-            @media (min-width: 768px) {
-                .bd-placeholder-img-lg {
-                    font-size: 3.5rem;
-                }
-            }
-        </style>
-        <!-- Custom styles for this template -->
-        <link href="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
-        <link href="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    </head>
+    <?php require_once HERE."/include/inc_html_head.php"; ?>
 
     <body class="bg-light">
     <div class="container">
@@ -254,7 +197,7 @@ EOT );
         </div>
 
         <div class="row">
-            <div class="col-md-12 order-md-1">
+            <div class="col-md-8 offset-md-2 order-md-1">
                 <div class="alert alert-danger" role="alert">
                     <?= LANG("The code you entered was invalid");?>
                 </div>
@@ -279,33 +222,7 @@ EOT );
 
         <?php require_once HERE."/include/inc_footer.php"; ?>
     </div>
-    <script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
-
-    <script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
-
-    <!--suppress JSUnresolvedVariable -->
-    <script>
-        jQuery(function ($) {
-            // get anything with the data-manyselect
-            // you don't even have to name your group if only one group
-            var $group = $("[data-manyselect]");
-
-            $group.on('input', function () {
-                var group = $(this).data('manyselect');
-                // set required property of other inputs in group to false
-                var allInGroup = $('*[data-manyselect="'+group+'"]');
-                // Set the required property of the other input to false if this input is not empty.
-                var oneSet = true;
-                $(allInGroup).each(function(){
-                    if ($(this).val() !== "")
-                        oneSet = false;
-                });
-                $(allInGroup).prop('required', oneSet)
-            });
-        });
-    </script>
-    <script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/form-validation.js"></script>
-
+    <?php require_once HERE."/include/inc_post_content.php"?>
     </body>
     </html>
 <?php } ?>

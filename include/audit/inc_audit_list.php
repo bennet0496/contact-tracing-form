@@ -6,7 +6,9 @@ require_once dirname(__FILE__)."/../../config.php";
 
 $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
-$page = max(1, filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT)) * 100;
+$page = max(1, filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT));
+
+$offset = ($page - 1) * 100;
 
 $num = $mysqli->query("SELECT count(*) FROM audit_log")->fetch_row()[0];
 
@@ -14,34 +16,15 @@ $stmt = $mysqli->prepare("SELECT audit_log.id as eid, u.id as uid,
 time, action, data, username, CONCAT(given_name, CONCAT(' ', surname)) AS common_name 
 FROM audit_log LEFT JOIN users u on u.id = audit_log.user ORDER BY audit_log.time DESC LIMIT ?,100");
 
-$stmt->bind_param("i", $page);
+$stmt->bind_param("i", $offset);
 $stmt->execute();
 
 $result = $stmt->get_result();
 
 
-
-
 ?>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
-    <title>COVID Contact tracing checkin</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Favicons -->
-    <meta name="theme-color" content="#563d7c">
-
-    <!-- Custom styles for this template -->
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-</head>
+<?php require_once HERE."/include/inc_html_head.php"; ?>
 
 <body class="bg-light">
 <div class="container">
@@ -127,33 +110,7 @@ $result = $stmt->get_result();
     </nav>
     <?php require_once HERE."/include/inc_footer.php"; ?>
 </div>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
-
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
-
-<!--suppress JSUnresolvedVariable -->
-<script>
-    jQuery(function ($) {
-        // get anything with the data-manyselect
-        // you don't even have to name your group if only one group
-        var $group = $("[data-manyselect]");
-
-        $group.on('input', function () {
-            var group = $(this).data('manyselect');
-            // set required property of other inputs in group to false
-            var allInGroup = $('*[data-manyselect="'+group+'"]');
-            // Set the required property of the other input to false if this input is not empty.
-            var oneSet = true;
-            $(allInGroup).each(function(){
-                if ($(this).val() !== "")
-                    oneSet = false;
-            });
-            $(allInGroup).prop('required', oneSet)
-        });
-    });
-</script>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/form-validation.js"></script>
-
+<?php require_once HERE."/include/inc_post_content.php"?>
 </body>
 </html>
 

@@ -5,7 +5,6 @@ if(!defined("INCLUDED"))
 require_once dirname(__FILE__)."/../../config.php";
 require_once HERE."/include/functions.php";
 
-/** @noinspection PhpUndefinedVariableInspection */
 $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
 $input = filter_input(INPUT_POST, "search", FILTER_SANITIZE_STRING);
@@ -17,8 +16,7 @@ $bind = implode("", array_map(function(){ return 's';}, $words));
 
 $num_key = array_search(true, array_map(function ($e){ return preg_match("/^[0-9]*$/", $e) === 1;}, $words));
 
-//error_log(print_r($words, true));
-//error_log(print_r(array_map(function ($e){ return preg_match("/^[0-9]*$/", $e) === 1;}, $words), true));
+
 if($num_key !== false) {
     //chip number found
     $chip = intval($words[$num_key]);
@@ -34,7 +32,13 @@ if($num_key !== false) {
 } else {
     $stmt = $mysqli->prepare("SELECT * FROM attendees WHERE LOWER(surname) IN (" . $prep . ") OR LOWER(given_name) IN (" . $prep . ")");
     $b = $bind.$bind;
-    call_user_func_array([$stmt, "bind_param"], array_merge([$b], $words, $words));
+    $wps = array();
+    $i = 0;
+    foreach ($words as &$word){
+        $wps[$i++] = &$word;
+    }
+    $p = array_merge([$b], $wps, $wps);
+    call_user_func_array([$stmt, "bind_param"], $p);
 }
 
 $stmt->execute();
@@ -127,33 +131,7 @@ $result = $stmt->get_result();
 
     <?php require_once HERE."/include/inc_footer.php"; ?>
 </div>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
-
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
-
-<!--suppress JSUnresolvedVariable -->
-<script>
-    jQuery(function ($) {
-        // get anything with the data-manyselect
-        // you don't even have to name your group if only one group
-        var $group = $("[data-manyselect]");
-
-        $group.on('input', function () {
-            var group = $(this).data('manyselect');
-            // set required property of other inputs in group to false
-            var allInGroup = $('*[data-manyselect="'+group+'"]');
-            // Set the required property of the other input to false if this input is not empty.
-            var oneSet = true;
-            $(allInGroup).each(function(){
-                if ($(this).val() !== "")
-                    oneSet = false;
-            });
-            $(allInGroup).prop('required', oneSet)
-        });
-    });
-</script>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/form-validation.js"></script>
-
+<?php require_once HERE."/include/inc_post_content.php"?>
 </body>
 </html>
 

@@ -7,6 +7,8 @@ if(!defined("INCLUDED"))
 
 require_once dirname(__FILE__)."/../../config.php";
 
+require_once HERE."/include/functions.php";
+
 $locale = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 error_log($locale);
 
@@ -33,72 +35,39 @@ $inputs = filter_input_array(INPUT_POST, array(
     'uuid' => FILTER_SANITIZE_STRING
 ));
 
+
+
 $error = false;
 $errors = array();
 
 if($inputs['submit'] != "resend") {
-    $uuid = $mysqli->query("SELECT UUID()")->fetch_row()[0];
-//$id = $mysqli->query("SELECT id from attendees WHERE uuid = \"".$uuid."\"")->fetch_row()[0];
-    if (!($stmt = $mysqli->prepare(
-        "INSERT INTO attendees(id, uuid, surname, given_name, email, phonenumber, 
-                      street, house_nr, zip_code, city, state, country, chip, privacy_policy) 
-                      VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?)"))) {
-        $error = true;
-        array_push($errors, "Error saving data (attendees) " . $mysqli->errno);
+    $pp = checkbox2bool($inputs['privacy_policy']);
+
+    if(is_null($inputs['surname']) || is_null($inputs['given_name']) || is_null($inputs['email']) ||
+        is_null($inputs['phonenumber']) || is_null($inputs['street']) || is_null($inputs['house_nr']) ||
+        is_null($inputs['zip_code']) || is_null($inputs['city']) || !$pp){
+        define("ERROR", true);
+        require_once dirname(__FILE__)."/inc_register_form.php";
+        exit();
     }
 
-    $pp = isset($inputs['privacy_policy']) && ($inputs['privacy_policy'] == "Yes" ||
-            $inputs['privacy_policy'] == "yes" ||
-            $inputs['privacy_policy'] == "On" ||
-            $inputs['privacy_policy'] == "on" ||
-            $inputs['privacy_policy'] == "1");
-
-    if (!$stmt->bind_param("sssssssssssii",
-        $uuid, $inputs['surname'], $inputs['given_name'],
-        $inputs['email'], $inputs['phonenumber'],
-        $inputs['street'], $inputs['house_nr'], $inputs['zip_code'], $inputs['city'], $inputs['state'], $inputs['country'],
-        $inputs['chip'], $pp)) {
-        $error = true;
-        array_push($errors, "Error saving data (attendees) " . $mysqli->errno);
-    }
-    if (!$stmt->execute()) {
-        $error = true;
-        array_push($errors, "Error saving data (attendees) " . $mysqli->errno);
-    }
-
-    if ($error) {
-        error_log(print_r($errors, true));
-        require_once HERE . "/error.php";
-        die();
+    try {
+        $uuid = insert_new_attendee($mysqli, null, $inputs['surname'], $inputs['given_name'],
+            $inputs['email'], $inputs['phonenumber'], $inputs['street'], $inputs['house_nr'],
+            $inputs['zip_code'], $inputs['city'], $inputs['state'], $inputs['country'], $inputs['chip'], $pp);
+    } catch (Exception $e) {
+        saveDie();
     }
 } else {
     $uuid = $inputs['uuid'];
 }
 
-if(!($stmt = $mysqli->prepare("SELECT * FROM attendees WHERE uuid = ?"))){
-    $error = true;
-    array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
+try {
+    /** @noinspection PhpUndefinedVariableInspection */
+    $row = get_attendee_by_uuid($mysqli, $uuid);
+} catch (Exception $e) {
+    saveDie();
 }
-if(!$stmt->bind_param("s", $uuid)){
-    $error = true;
-    array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
-}
-if(!$stmt->execute()){
-    $error = true;
-    array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
-}
-if(!($result = $stmt->get_result())){
-    $error = true;
-    array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
-}
-
-if ($result->num_rows != 1) {
-    error_log(print_r($result->fetch_all(), true));
-    require_once HERE . "/error.php";
-    die();
-}
-
-$row = $result->fetch_assoc();
 
 if(isset($row['email']) && $row['email'] != "") {
     try {
@@ -130,28 +99,20 @@ if(isset($row['email']) && $row['email'] != "") {
 
     require_once HERE."/vendor/autoload.php";
 
-    $mail = new \PHPMailer\PHPMailer\PHPMailer(false);
-    //$mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
-    $mail->isSMTP();
-    $mail->Host = MAIL_SERVER;
-    $mail->SMTPAuth = !empty(MAIL_LOGIN) && !empty(MAIL_PASSWORD);
-    $mail->Username = MAIL_LOGIN;
-    $mail->Password = MAIL_PASSWORD;
-    $mail->SMTPSecure = MAIL_SSL ? \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS : '';
+    try {
+        $mail = setupMail($row['email'], $row['given_name'] . " " . $row['surname']);
+        $mail->isHTML(false);
+        $mail->Subject = LANG("Please Verify your Email");
+        /** @noinspection PhpUndefinedVariableInspection */
+        $mail->Body = sprintf(LANG("Hi,\r\n\r\nPlease use this code to verify your Email: %s\r\n\r\nBest Regards,\r\n%s\r\n"), $mail_challenge, $ORGANISATION);
 
-    $mail->setFrom(MAIL_FROM);
-    $mail->addAddress($row['email'], $row['given_name']. " " . $row['surname']);
-
-    $mail->isHTML(false);
-    $mail->Subject = LANG("Please Verify your Email");
-    /** @noinspection PhpUndefinedVariableInspection */
-    $mail->Body = sprintf(LANG("Hi,\r\n\r\nPlease use this code to verify your Email: %s\r\n\r\nBest Regards,\r\n%s\r\n"), $mail_challenge, $ORGANISATION);
-
-    $mail->send();
+        $mail->send();
+    } catch (\PHPMailer\PHPMailer\Exception $e) {
+        saveDie();
+    }
 
 } else {
-    require_once HERE . "/error.php";
-    die();
+    saveDie();
 }
 
 ?>
@@ -170,7 +131,7 @@ if(isset($row['email']) && $row['email'] != "") {
     </div>
 
     <div class="row">
-        <div class="col-md-12 order-md-1">
+        <div class="col-md-8 order-md-1 offset-md-2">
             <form class="needs-validation" novalidate="" method="POST" action="<?= $_SERVER['PHP_SELF']; ?>">
                 <span><?= LANG("Please enter your verification code"); ?></span>
                 <div class="mb-3">
@@ -192,32 +153,6 @@ if(isset($row['email']) && $row['email'] != "") {
 
     <?php require_once HERE."/include/inc_footer.php"; ?>
 </div>
-<script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
-
-<script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
-
-<!--suppress JSUnresolvedVariable -->
-<script>
-    jQuery(function ($) {
-        // get anything with the data-manyselect
-        // you don't even have to name your group if only one group
-        var $group = $("[data-manyselect]");
-
-        $group.on('input', function () {
-            var group = $(this).data('manyselect');
-            // set required property of other inputs in group to false
-            var allInGroup = $('*[data-manyselect="'+group+'"]');
-            // Set the required property of the other input to false if this input is not empty.
-            var oneSet = true;
-            $(allInGroup).each(function(){
-                if ($(this).val() !== "")
-                    oneSet = false;
-            });
-            $(allInGroup).prop('required', oneSet)
-        });
-    });
-</script>
-<script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/form-validation.js"></script>
-
+<?php require_once HERE."/include/inc_post_content.php"?>
 </body>
 </html>

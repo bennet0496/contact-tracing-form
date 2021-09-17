@@ -67,6 +67,7 @@ CONST LANG = [
     "Send via email" => "per Email senden",
     "Done" => "Fertig",
 
+    "The from contains errors" => "Das Formular enh&auml;lt Fehler!"
 ];
 
 function LANG($msg) {

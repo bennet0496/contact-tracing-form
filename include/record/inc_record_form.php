@@ -4,23 +4,8 @@ if(!defined("INCLUDED"))
 require_once dirname(__FILE__)."/../../config.php";
 ?>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
-    <title>COVID Contact tracing checkin</title>
+<?php require_once HERE."/include/inc_html_head.php"; ?>
 
-    <!-- Bootstrap core CSS -->
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Favicons -->
-    <meta name="theme-color" content="#563d7c">
-    <!-- Custom styles for this template -->
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-</head>
 
 <body class="bg-light">
 <div class="container">
@@ -103,7 +88,10 @@ require_once dirname(__FILE__)."/../../config.php";
                             $f = fopen(ISO_CODES, 'r');
                             while(($csv = fgetcsv($f, 0, ";"))){
                                 ?>
-                                <option value="<?php echo $csv[0]; ?>" <?php if("DEU" == $csv[0]) echo "selected"?>><?php echo $csv[1]; ?></option>
+                                <option value="<?php echo $csv[0]; ?>"
+                                    <?php if("DEU" == $csv[0]) echo "selected"?>>
+                                    <?php printf("%s (%s)",$csv[1],$csv[3]); ?>
+                                </option>
                                 <?php
                             }
                             ?>
@@ -256,35 +244,9 @@ require_once dirname(__FILE__)."/../../config.php";
         </div>
     </div>
 
-    <?php require_once dirname(__FILE__)."/inc_footer.php"; ?>
+    <?php require_once HERE."/include/inc_footer.php"; ?>
 </div>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
-
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
-
-<!--suppress JSUnresolvedVariable -->
-<script>
-    jQuery(function ($) {
-        // get anything with the data-manyselect
-        // you don't even have to name your group if only one group
-        var $group = $("[data-manyselect]");
-
-        $group.on('input', function () {
-            var group = $(this).data('manyselect');
-            // set required property of other inputs in group to false
-            var allInGroup = $('*[data-manyselect="'+group+'"]');
-            // Set the required property of the other input to false if this input is not empty.
-            var oneSet = true;
-            $(allInGroup).each(function(){
-                if ($(this).val() !== "")
-                    oneSet = false;
-            });
-            $(allInGroup).prop('required', oneSet)
-        });
-    });
-</script>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/form-validation.js"></script>
-
+<?php require_once HERE."/include/inc_post_content.php"?>
 </body>
 </html>
 

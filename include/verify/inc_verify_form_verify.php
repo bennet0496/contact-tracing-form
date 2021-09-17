@@ -22,6 +22,11 @@ $row = array();
 
 try {
     $row = get_attendee_by_uuid($mysqli, $uuid, true, $errors);
+    if(is_null($row)){
+        define("ERROR", true);
+        require_once dirname(__FILE__)."/inc_verify_form.php";
+        exit();
+    }
     $details = get_detail_verification_by_user($mysqli, $row['id'], true, $errors);
     $vd = get_verification_data_by_user($mysqli, $row['id'], true, $errors);
 }catch (Exception $e) {
@@ -75,18 +80,21 @@ $vd = $vd[0];
                     <i class="bi bi-patch-exclamation" style="color: #bd2130" title="core data is invalid"></i>
                 <?php }} ?>
             </h4>
-            <form class="needs-validation" novalidate="" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>?xsrf=<?php echo XSRF_TOKEN;?>">
+            <form class="needs-validation" novalidate="" method="POST"
+                  action="<?php echo $_SERVER['PHP_SELF']; ?>?xsrf=<?php echo XSRF_TOKEN;?>">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="firstName">First name</label>
-                        <input type="text" class="form-control" id="firstName" name="given_name" value="<?php echo htmlentities($row['given_name'])?>" disabled>
+                        <input type="text" class="form-control" id="firstName" name="given_name"
+                               value="<?php echo htmlentities($row['given_name'])?>" disabled>
                         <div class="invalid-feedback">
                             Valid first name is required.
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="lastName">Last name</label>
-                        <input type="text" class="form-control" id="lastName" name="surname" value="<?php echo htmlentities($row['surname'])?>" disabled>
+                        <input type="text" class="form-control" id="lastName" name="surname"
+                               value="<?php echo htmlentities($row['surname'])?>" disabled>
                         <div class="invalid-feedback">
                             Valid last name is required.
                         </div>
@@ -96,14 +104,16 @@ $vd = $vd[0];
                 <div class="row">
                     <div class="col-md-8 mb-3">
                         <label for="street">Street</label>
-                        <input type="text" class="form-control" id="street" name="street" value="<?php echo htmlentities($row['street'])?>" disabled>
+                        <input type="text" class="form-control" id="street" name="street"
+                               value="<?php echo htmlentities($row['street'])?>" disabled>
                         <div class="invalid-feedback">
                             Valid street is required.
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="houseNr">House number</label>
-                        <input type="text" class="form-control" id="houseNr" name="house_nr" value="<?php echo htmlentities($row['house_nr'])?>" disabled>
+                        <input type="text" class="form-control" id="houseNr" name="house_nr"
+                               value="<?php echo htmlentities($row['house_nr'])?>" disabled>
                         <div class="invalid-feedback">
                             Valid House number is required.
                         </div>
@@ -113,14 +123,16 @@ $vd = $vd[0];
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label for="zipCode">ZIP code</label>
-                        <input type="text" class="form-control" id="zipCode" name="zip_code" value="<?php echo htmlentities($row['zip_code'])?>" disabled>
+                        <input type="text" class="form-control" id="zipCode" name="zip_code"
+                               value="<?php echo htmlentities($row['zip_code'])?>" disabled>
                         <div class="invalid-feedback">
                             Valid ZIP Code is required.
                         </div>
                     </div>
                     <div class="col-md-8 mb-3">
                         <label for="city">City</label>
-                        <input type="text" class="form-control" id="city" name="city" value="<?php echo htmlentities($row['city'])?>" disabled>
+                        <input type="text" class="form-control" id="city" name="city"
+                               value="<?php echo htmlentities($row['city'])?>" disabled>
                         <div class="invalid-feedback">
                             Valid City is required.
                         </div>
@@ -130,7 +142,8 @@ $vd = $vd[0];
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="state">State/Province</label>
-                        <input type="text" class="form-control" id="state" name="state" value="<?php echo htmlentities($row['state'])?>" disabled>
+                        <input type="text" class="form-control" id="state" name="state"
+                               value="<?php echo htmlentities($row['state'])?>" disabled>
                         <div class="invalid-feedback">
                             Valid State is required.
                         </div>
@@ -143,7 +156,10 @@ $vd = $vd[0];
                         $f = fopen(ISO_CODES, 'r');
                         while(($csv = fgetcsv($f, 0, ";"))){
                             ?>
-                            <option value="<?php echo $csv[0]; ?>" <?php if($row['country'] == $csv[0]) echo "selected"?>><?php echo $csv[1]; ?></option>
+                            <option value="<?php echo $csv[0]; ?>"
+                                <?php if($row['country'] == $csv[0]) echo "selected"?>>
+                                <?php echo $csv[1]; ?>
+                            </option>
                             <?php
                         }
                         ?>
@@ -156,7 +172,10 @@ $vd = $vd[0];
 
                 <div class="mb-3">
                     <?php
-                        $email_verified = in_array(true, array_map(function($el){ return $el['credential'] == "EMAIL" && isset($el['verification_date']); }, $details));
+                        $email_verified = in_array(true,
+                            array_map(function($el){
+                                    return $el['credential'] == "EMAIL" && isset($el['verification_date']);
+                                }, $details));
                     ?>
                     <label for="email">Email
                         <?php if($email_verified) {?>
@@ -165,7 +184,8 @@ $vd = $vd[0];
                             <i class="bi bi-patch-exclamation" style="color: #bd2130" title="email was not verified yet!"></i>
                         <?php } ?>
                     </label>
-                    <input type="email" class="form-control" id="email" name="email" data-manyselect="contact" value="<?php echo htmlentities($row['email'])?>" disabled>
+                    <input type="email" class="form-control" id="email" name="email" data-manyselect="contact"
+                           value="<?php echo htmlentities($row['email'])?>" disabled>
                     <div class="invalid-feedback">
                         Please enter a valid email address.
                     </div>
@@ -173,7 +193,10 @@ $vd = $vd[0];
 
                 <div class="mb-3">
                     <?php
-                    $phone_verified = in_array(true, array_map(function($el){ return $el['credential'] == "PHONE_NUMBER" && isset($el['verification_date']); }, $details));
+                    $phone_verified = in_array(true,
+                        array_map(function($el){
+                                return $el['credential'] == "PHONE_NUMBER" && isset($el['verification_date']);
+                            }, $details));
                     ?>
                     <label for="phonenumber">Phone number
                         <?php if($phone_verified) {?>
@@ -182,7 +205,8 @@ $vd = $vd[0];
                             <i class="bi bi-patch-exclamation" style="color: #bd2130" title="phone number was not verified yet!"></i>
                         <?php } ?>
                     </label>
-                    <input type="text" class="form-control" id="phonenumber" name="phonenumber" data-manyselect="contact" value="<?php echo htmlentities($row['phonenumber'])?>" disabled>
+                    <input type="text" class="form-control" id="phonenumber" name="phonenumber" data-manyselect="contact"
+                           value="<?php echo htmlentities($row['phonenumber'])?>" disabled>
                     <div class="invalid-feedback">
                         Please enter a valid phone number.
                     </div>
@@ -191,7 +215,9 @@ $vd = $vd[0];
                 <h3>Person Status</h3>
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="dataCorrect" name="data_correct" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo $coredata_verified ? "checked" : ""; ?>>
+                        <input class="form-check-input" type="checkbox" id="dataCorrect" name="data_correct"
+                            <?php echo $LOCKED ? "disabled" : ""; ?>
+                            <?php echo $coredata_verified ? "checked" : ""; ?>>
                         <label class="form-check-label" for="dataCorrect">
                             Data is correct (checked with government ID)
                         </label>
@@ -200,11 +226,17 @@ $vd = $vd[0];
                 <?php if(REQUIRE_VACCINATION_STATUS){ ?>
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="vaccinated" name="vaccinated" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && $vd['vaccination_status'] ? "checked" : ""; ?>>
+                        <input class="form-check-input" type="checkbox" id="vaccinated" name="vaccinated"
+                            <?php echo $LOCKED ? "disabled" : ""; ?>
+                            <?php echo !is_null($vd) && $vd['vaccination_status'] ? "checked" : ""; ?>>
                         <label class="form-check-label" for="vaccinated" >
                             Valid (Full) Vaccination Certification shown<br/>
-                            <small><i>1/1 for Janssen; 2/2 for Comirnaty (BioNTech), Spikevax (Moderna) and Vaxzevria (AstraZeneca)</i><br/>
-                                No other vaccine is considered Valid by <a href="https://www.pei.de/DE/arzneimittel/impfstoffe/covid-19/covid-19-node.html" target="_blank">STIKO and PEI</a></small>
+                            <small><i>1/1 for Janssen; 2/2 for Comirnaty (BioNTech), Spikevax (Moderna) and Vaxzevria
+                                    (AstraZeneca)</i><br/>
+                                No other vaccine is considered Valid by
+                                <a href="https://www.pei.de/DE/arzneimittel/impfstoffe/covid-19/covid-19-node.html"
+                                   target="_blank">STIKO and PEI</a>
+                            </small>
                         </label>
                     </div>
                 </div>
@@ -212,7 +244,10 @@ $vd = $vd[0];
                 <?php if(REQUIRE_VACCINATION_DATE){ ?>
                 <div class="mb-3">
                     <label for="vdate">Date of Full Vaccination</label>
-                    <input type="date" class="form-control" id="vdate" name="vdate" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && !is_null($vd['vaccination_date']) ? "value='".$vd['vaccination_date']."'" : ""; ?>>
+                    <input type="date" class="form-control" id="vdate" name="vdate"
+                        <?php echo $LOCKED ? "disabled" : ""; ?>
+                        <?php echo !is_null($vd) && !is_null($vd['vaccination_date']) ?
+                            "value='".$vd['vaccination_date']."'" : ""; ?>>
                     <div class="invalid-feedback">
                         Please enter a valid date.
                     </div>
@@ -221,7 +256,9 @@ $vd = $vd[0];
                 <?php if(REQUIRE_RECOVERY_STATUS){ ?>
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="recovered" name="recovered" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && $vd['recovery_status'] ? "checked" : ""; ?>>
+                        <input class="form-check-input" type="checkbox" id="recovered" name="recovered"
+                            <?php echo $LOCKED ? "disabled" : ""; ?>
+                            <?php echo !is_null($vd) && $vd['recovery_status'] ? "checked" : ""; ?>>
                         <label class="form-check-label" for="recovered">
                             Valid Recovery Certification shown
                         </label>
@@ -231,7 +268,10 @@ $vd = $vd[0];
                 <?php if(REQUIRE_RECOVERY_DATE){ ?>
                 <div class="mb-3">
                     <label for="rdate">Recovery Date</label>
-                    <input type="date" class="form-control" id="rdate" name="rdate" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && !is_null($vd['recovery_date']) ? "value='".$vd['recovery_date']."'" : ""; ?>>
+                    <input type="date" class="form-control" id="rdate" name="rdate"
+                        <?php echo $LOCKED ? "disabled" : ""; ?>
+                        <?php echo !is_null($vd) && !is_null($vd['recovery_date']) ?
+                            "value='".$vd['recovery_date']."'" : ""; ?>>
                     <div class="invalid-feedback">
                         Please enter a valid date.
                     </div>
@@ -240,7 +280,9 @@ $vd = $vd[0];
                 <?php if(REQUIRE_TEST_STATUS){ ?>
                     <div class="mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="tested" name="tested" <?php echo $LOCKED ? "disabled" : ""; ?> <?php echo !is_null($vd) && $vd['test_status'] ? "checked" : ""; ?>>
+                            <input class="form-check-input" type="checkbox" id="tested" name="tested"
+                                <?php echo $LOCKED ? "disabled" : ""; ?>
+                                <?php echo !is_null($vd) && $vd['test_status'] ? "checked" : ""; ?>>
                             <label class="form-check-label" for="tested">
                                 Valid negative test shown
                             </label>
@@ -290,12 +332,15 @@ $vd = $vd[0];
                 <h3>Chip</h3>
                 <div class="mb-3">
                     <label for="chip">Chip number</label>
-                    <input type="text" class="form-control" id="chip" name="chip" value="<?php echo htmlentities($row['chip']);?>" <?php echo $LOCKED ? "disabled" : ""; ?>>
+                    <input type="text" class="form-control" id="chip" name="chip"
+                    value="<?php echo htmlentities($row['chip']);?>" <?php echo $LOCKED ? "disabled" : ""; ?>>
                 </div>-->
                 <hr class="mb-4">
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="privacy_policy" name="privacy_policy" <?php echo $row['privacy_policy'] || (!is_null($vd) && $vd['privacy_policy']) ? "checked" : "";?> <?php echo $LOCKED ? "disabled" : ""; ?>>
+                        <input class="form-check-input" type="checkbox" id="privacy_policy" name="privacy_policy"
+                            <?php echo $row['privacy_policy'] || (!is_null($vd) && $vd['privacy_policy']) ?
+                                "checked" : "";?> <?php echo $LOCKED ? "disabled" : ""; ?>>
                         <label class="form-check-label" for="privacy_policy">
                             Agreed to Privacy Policy
                         </label>
@@ -304,17 +349,21 @@ $vd = $vd[0];
                 <hr class="mb-4">
                 <div class="mb-3">
                     <label for="uuid">UUID</label>
-                    <input type="text" class="form-control" id="uuid" name="uuid" value="<?php echo $row['uuid'];?>" disabled>
-                    <input type="hidden" class="form-control" id="uuid" name="uuid" value="<?php echo $row['uuid'];?>">
+                    <input type="text" class="form-control" id="uuid" name="uuid"
+                           value="<?php echo $row['uuid'];?>" disabled>
+                    <input type="hidden" class="form-control" id="uuid" name="uuid"
+                           value="<?php echo $row['uuid'];?>">
                 </div>
                 <hr class="mb-4">
                 <div class="row">
                     <div class="col-md-9">
                         <button class="btn btn-outline-secondary btn-lg btn-block" type="submit" name="submit" value="back">Back</button>
-                        <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit" value="verify" <?php echo $LOCKED ? "disabled" : ""; ?>>Verify</button>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit" value="verify"
+                            <?php echo $LOCKED ? "disabled" : ""; ?>>Verify</button>
                     </div>
                     <div class="col-md-3">
-                        <button class="btn btn-outline-danger btn-lg btn-block" style="float: right;" type="submit" name="submit" value="invalidate" <?php echo $LOCKED ? "disabled" : ""; ?>>Invalidate</button>
+                        <button class="btn btn-outline-danger btn-lg btn-block" style="float: right;" type="submit" name="submit"
+                                value="invalidate" <?php echo $LOCKED ? "disabled" : ""; ?>>Invalidate</button>
                     </div>
                 </div>
             </form>
