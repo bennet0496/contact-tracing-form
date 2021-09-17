@@ -1,251 +1,251 @@
-AFG;Afghanistan
-ALA;Aland Islands
-ALB;Albania
-DZA;Algeria
-ASM;American Samoa
-AND;Andorra
-AGO;Angola
-AIA;Anguilla
-ATA;Antarctica
-ATG;Antigua and Barbuda
-ARG;Argentina
-ARM;Armenia
-ABW;Aruba
-AUS;Australia
-AUT;Austria
-AZE;Azerbaijan
-BHS;Bahamas
-BHR;Bahrain
-BGD;Bangladesh
-BRB;Barbados
-BLR;Belarus
-BEL;Belgium
-BLZ;Belize
-BEN;Benin
-BMU;Bermuda
-BTN;Bhutan
-BOL;Bolivia
-BES;Bonaire, Sint Eustatius and Saba
-BIH;Bosnia and Herzegovina
-BWA;Botswana
-BVT;Bouvet Island
-BRA;Brazil
-IOT;British Indian Ocean Territory
-BRN;Brunei Darussalam
-BGR;Bulgaria
-BFA;Burkina Faso
-BDI;Burundi
-KHM;Cambodia
-CMR;Cameroon
-CAN;Canada
-CPV;Cape Verde
-CYM;Cayman Islands
-CAF;Central African Republic
-TCD;Chad
-CHL;Chile
-CHN;China
-CXR;Christmas Island
-CCK;Cocos (Keeling) Islands
-COL;Colombia
-COM;Comoros
-COG;Congo
-COD;Congo, The Democratic Republic of 
-COK;Cook Islands
-CRI;Costa Rica
-CIV;Cote d'Ivoire
-HRV;Croatia
-CUB;Cuba
-CUW;Curaçao
-CYP;Cyprus
-CZE;Czechia
-DNK;Denmark
-DJI;Djibouti
-DMA;Dominica
-DOM;Dominican Republic
-ECU;Ecuador
-EGY;Egypt
-SLV;El Salvador
-GNQ;Equatorial Guinea
-ERI;Eritrea
-EST;Estonia
-ETH;Ethiopia
-FLK;Falkland Islands (Malvinas)
-FRO;Faroe Islands
-FJI;Fiji
-FIN;Finland
-FRA;France
-GUF;French Guiana
-PYF;French Polynesia
-ATF;French Southern Territories
-GAB;Gabon
-GMB;Gambia
-GEO;Georgia
-DEU;Germany
-GHA;Ghana
-GIB;Gibraltar
-GRC;Greece
-GRL;Greenland
-GRD;Grenada
-GLP;Guadeloupe
-GUM;Guam
-GTM;Guatemala
-GGY;Guernsey
-GIN;Guinea
-GNB;Guinea-Bissau
-GUY;Guyana
-HTI;Haiti
-HMD;Heard and Mc Donald Islands
-VAT;Holy See (Vatican City State)
-HND;Honduras
-HKG;Hong Kong
-HUN;Hungary
-ISL;Iceland
-IND;India
-IDN;Indonesia
-IRN;Iran, Islamic Republic of
-IRQ;Iraq
-IRL;Ireland
-IMN;Isle of Man
-ISR;Israel
-ITA;Italy
-JAM;Jamaica
-JPN;Japan
-JEY;Jersey
-JOR;Jordan
-KAZ;Kazakstan
-KEN;Kenya
-KIR;Kiribati
-PRK;Korea, Democratic People's Republic of
-KOR;Korea, Republic of
-XKX;Kosovo (temporary code)
-KWT;Kuwait
-KGZ;Kyrgyzstan
-LAO;Lao, People's Democratic Republic
-LVA;Latvia
-LBN;Lebanon
-LSO;Lesotho
-LBR;Liberia
-LBY;Libyan Arab Jamahiriya
-LIE;Liechtenstein
-LTU;Lithuania
-LUX;Luxembourg
-MAC;Macao
-MKD;Macedonia, The Former Yugoslav Republic Of
-MDG;Madagascar
-MWI;Malawi
-MYS;Malaysia
-MDV;Maldives
-MLI;Mali
-MLT;Malta
-MHL;Marshall Islands
-MTQ;Martinique
-MRT;Mauritania
-MUS;Mauritius
-MYT;Mayotte
-MEX;Mexico
-FSM;Micronesia, Federated States of
-MDA;Moldova, Republic of
-MCO;Monaco
-MNG;Mongolia
-MNE;Montenegro
-MSR;Montserrat
-MAR;Morocco
-MOZ;Mozambique
-MMR;Myanmar
-NAM;Namibia
-NRU;Nauru
-NPL;Nepal
-NLD;Netherlands
-NCL;New Caledonia
-NZL;New Zealand
-NIC;Nicaragua
-NER;Niger
-NGA;Nigeria
-NIU;Niue
-NFK;Norfolk Island
-MNP;Northern Mariana Islands
-NOR;Norway
-OMN;Oman
-PAK;Pakistan
-PLW;Palau
-PSE;Palestinian Territory, Occupied
-PAN;Panama
-PNG;Papua New Guinea
-PRY;Paraguay
-PER;Peru
-PHL;Philippines
-PCN;Pitcairn
-POL;Poland
-PRT;Portugal
-PRI;Puerto Rico
-QAT;Qatar
-SRB;Republic of Serbia
-REU;Reunion
-ROU;Romania
-RUS;Russia Federation
-RWA;Rwanda
-BLM;Saint Barthélemy
-SHN;Saint Helena
-KNA;Saint Kitts & Nevis
-LCA;Saint Lucia
-MAF;Saint Martin
-SPM;Saint Pierre and Miquelon
-VCT;Saint Vincent and the Grenadines
-WSM;Samoa
-SMR;San Marino
-STP;Sao Tome and Principe
-SAU;Saudi Arabia
-SEN;Senegal
-SYC;Seychelles
-SLE;Sierra Leone
-SGP;Singapore
-SXM;Sint Maarten
-SVK;Slovakia
-SVN;Slovenia
-SLB;Solomon Islands
-SOM;Somalia
-ZAF;South Africa
-SGS;South Georgia & The South Sandwich Islands
-SSD;South Sudan
-ESP;Spain
-LKA;Sri Lanka
-SDN;Sudan
-SUR;Suriname
-SJM;Svalbard and Jan Mayen
-SWZ;Swaziland
-SWE;Sweden
-CHE;Switzerland
-SYR;Syrian Arab Republic
-TWN;Taiwan, Province of China
-TJK;Tajikistan
-TZA;Tanzania, United Republic of
-THA;Thailand
-TLS;Timor-Leste
-TGO;Togo
-TKL;Tokelau
-TON;Tonga
-TTO;Trinidad and Tobago
-TUN;Tunisia
-TUR;Turkey
-XTX;Turkish Rep N Cyprus (temporary code)
-TKM;Turkmenistan
-TCA;Turks and Caicos Islands
-TUV;Tuvalu
-UGA;Uganda
-UKR;Ukraine
-ARE;United Arab Emirates
-GBR;United Kingdom
-USA;United States
-UMI;United States Minor Outlying Islands
-URY;Uruguay
-UZB;Uzbekistan
-VUT;Vanuatu
-VEN;Venezuela
-VNM;Vietnam
-VGB;Virgin Islands, British
-VIR;Virgin Islands, U.S.
-WLF;Wallis and Futuna
-ESH;Western Sahara
-YEM;Yemen
-ZMB;Zambia
-ZWE;Zimbabwe
+AFG;Afghanistan;Islamic Emirate of Afghanistan;افغانستان;د افغانستان اسلامي امارت;Də Afġānistān Islāmī Imārat
+ALA;Aland Islands;Åland Islands;Ahvenanmaa;Ahvenanmaa;
+ALB;Albania;Republic of Albania;Shqipëri;Republika e Shqipërisë;
+DZA;Algeria;People's Democratic Republic of Algeria;الجزائر;الجمهورية الجزائرية الديمقراطية الشعبية;al-Jumhūriyya al-Jazāʾiriyya ad-Dīmuqrāṭiyya aš-Šaʿbiyya
+ASM;American Samoa;American Samoa;Amerika Sāmoa;Amerika Sāmoa;
+AND;Andorra;Principality of Andorra;Andorra;Principat d'Andorra;
+AGO;Angola;Republic of Angola;Angola;República de Angola;
+AIA;Anguilla;Anguilla;Anguilla;Anguilla;
+ATA;Antarctica;Antarctica;Antarctica;Antarctica;
+ATG;Antigua and Barbuda;Antigua and Barbuda;Antigua and Barbuda;Antigua and Barbuda;
+ARG;Argentina;Argentine Republic;Argentina;República Argentina;
+ARM;Armenia;Republic of Armenia;Հայաստան;Հայաստանի Հանրապետություն;
+ABW;Aruba;Aruba;Aruba;Aruba;
+AUS;Australia;Commonwealth of Australia;Australia;Commonwealth of Australia;
+AUT;Austria;Republic of Austria;Österreich;Republik Österreich;
+AZE;Azerbaijan;Republic of Azerbaijan;Azərbaycan;Azərbaycan Respublikası;
+BHS;Bahamas;Commonwealth of The Bahamas;Bahamas;Commonwealth of The Bahamas;
+BHR;Bahrain;Kingdom of Bahrain;البحرين;مملكة البحرين ;Mamlakat al-Baḥrayn
+BGD;Bangladesh;People's Republic of Bangladesh;বাংলাদেশ;গণপ্রজাতন্ত্রী বাংলাদেশ;Gônoprojatontrī Bangladesh
+BRB;Barbados;Barbados;Barbados;Barbados;
+BLR;Belarus;Republic of Belarus;Беларусь;Рэспубліка Беларусь;
+BEL;Belgium;Kingdom of Belgium;België/Belgique;Koninkrijk België/Royaume de Belgique;
+BLZ;Belize;Belize;Belize;Belize;
+BEN;Benin;Republic of Benin;Bénin;République du Bénin;
+BMU;Bermuda;Bermuda;Bermuda;Bermuda;
+BTN;Bhutan;Kingdom of Bhutan;འབྲུག་ཡུལ་;འབྲུག་རྒྱལ་ཁབ་;Druk Gyal Khap
+BOL;Bolivia;Plurinational State of Bolivia;Bolivia/Mborivia/Wuliwya/Puliwya;Estado Plurinacional de Bolivia/Tetã Hetãvoregua Mborivia/Wuliwya Suyu/Puliwya Mamallaqta;
+BES;Bonaire, Sint Eustatius and Saba;Caribbean Netherlands;Caribisch Nederland;Caribisch Nederland;
+BIH;Bosnia and Herzegovina;Bosnia and Herzegovina;Bosna i Hercegovina;Bosna i Hercegovina;
+BWA;Botswana;Republic of Botswana;Botswana;Lefatshe la Botswana;
+BVT;Bouvet Island;Bouvet Island;Bouvetøya;Bouvetøya;
+BRA;Brazil;Federative Republic of Brazil;Brasil;República Federativa do Brasil;
+IOT;British Indian Ocean Territory;British Indian Ocean Territory;British Indian Ocean Territory;British Indian Ocean Territory;
+BRN;Brunei Darussalam;Nation of Brunei, the Abode of Peace;Negara Brunei Darussalam;Negara Brunei Darussalam;
+BGR;Bulgaria;Republic of Bulgaria;България;Република България;Republika Bǎlgariya
+BFA;Burkina Faso;Burkina Faso;Burkina Faso;Burkina Faso;
+BDI;Burundi;Republic of Burundi;Burundi;Repubulika y’u Burundi/République du Burundi;
+KHM;Cambodia;Kingdom of Cambodia;កម្ពុជា;ព្រះរាជាណាចក្រកម្ពុជា;
+CMR;Cameroon;Republic of Cameroon;Cameroun;République du Cameroun;
+CAN;Canada;Canada;Canada;Canada;
+CPV;Cape Verde;Republic of Cabo Verde;Cabo Verde;República de Cabo Verde;
+CYM;Cayman Islands;Cayman Islands;Cayman Islands;Cayman Islands;
+CAF;Central African Republic;Central African Republic;République centrafricaine/Ködörösêse tî Bêafrîka;République centrafricaine/Ködörösêse tî Bêafrîka;
+TCD;Chad;Republic of Chad;Tchad/تشاد;République du Tchad/جمهورية تشاد;Jumhūriyyat Tšād
+CHL;Chile;Republic of Chile;Chile;República de Chile;
+CHN;China;People's Republic of China;中国;中华人民共和国;Zhōnghuá Rénmín Gònghéguó
+CXR;Christmas Island;Christmas Island;Christmas Island;Christmas Island;
+CCK;Cocos (Keeling) Islands;Cocos (Keeling) Islands;Cocos (Keeling) Islands;Cocos (Keeling) Islands;
+COL;Colombia;Republic of Colombia;Colombia;República de Colombia;
+COM;Comoros;Union of the Comoros;Komori/Comores/جزر القمر;Umoja wa Komori/Union des Comores/اتحاد جزر القمر;al-Ittiḥād al-Qumurī/Qamarī
+COG;Congo;Republic of the Congo;Congo;République du Congo;
+COD;Congo, The Democratic Republic of ;Democratic Republic of the Congo;République démocratique du Congo;République démocratique du Congo;
+COK;Cook Islands;Cook Islands;Kūki 'Āirani;Kūki 'Āirani;
+CRI;Costa Rica;Republic of Costa Rica;Costa Rica;República de Costa Rica;
+CIV;Cote d'Ivoire;Republic of Côte d'Ivoire;Côte d'Ivoire;République de Côte d'Ivoire;
+HRV;Croatia;Republic of Croatia;Hrvatska;Republika Hrvatska;
+CUB;Cuba;Republic of Cuba;Cuba;República de Cuba;
+CUW;Curaçao;Curaçao;Kòrsou;Kòrsou;
+CYP;Cyprus;Republic of Cyprus;Κύπρος/Kıbrıs;Κυπριακή Δημοκρατία/Kıbrıs Cumhuriyeti;
+CZE;Czechia;Czech Republic;Česko;Česká republika;
+DNK;Denmark;Kingdom of Denmark;Danmark;Kongeriget Danmark;
+DJI;Djibouti;Republic of Djibouti;Djibouti/جيبوتي;République de Djibouti/جمهورية جيبوتي;Jumhūrīyah Jībūtī
+DMA;Dominica;Commonwealth of Dominica;Dominica;Commonwealth of Dominica;
+DOM;Dominican Republic;Dominican Republic;República Dominicana;República Dominicana;
+ECU;Ecuador;Republic of Ecuador;Ecuador;República del Ecuador;
+EGY;Egypt;Arab Republic of Egypt;مِصر;جمهورية مصر العربية;jumhuriat misr alearabia
+SLV;El Salvador;Republic of El Salvador;El Salvador;República de El Salvador;
+GNQ;Equatorial Guinea;Republic of Equatorial Guinea;Guinea Ecuatorial/Guinée Équatoriale/Guiné Equatorial;República de Guinea Ecuatorial/République de Guinée Équatoriale/República da Guiné Equatorial;
+ERI;Eritrea;State of Eritrea;ኤርትራ/إرتريا;ሃገረ ኤርትራ/دولة إرتريا;
+EST;Estonia;Republic of Estonia;Eesti;Eesti Vabariik;
+ETH;Ethiopia;Federal Democratic Republic of Ethiopia;ኢትዮጵያ/Itiyoophiyaa/Itoobiya/Ityoppiah/ኢትዮጵያ;የኢትዮጵያ ፌዴራላዊ ዴሞክራሲያዊ ሪፐብሊክ/Rippabliikii Federaalawaa Dimokraatawaa Itiyoophiyaa/Jamhuuriyadda Dimuqraadiga Federaalka Itoobiya/Ityoppiah Federalih Demokrasih Ummuno/ናይኢትዮጵያ ፌዴራላዊ ዴሞክራሲያዊ ሪፐብሊክ;yeʾĪtiyoṗṗiya Fēdēralawī Dēmokirasīyawī Rīpebilīk/nayi'ītiyop'iya fēdēralawī dēmokirasīyawī rīpebilīki
+FLK;Falkland Islands (Malvinas);Falkland Islands;Falkland Islands;Falkland Islands;
+FRO;Faroe Islands;Faroe Islands;Føroyar;Føroyar;
+FJI;Fiji;Republic of Fiji;Viti/फ़िजी;Matanitu Tugalala o Viti/फ़िजी गणराज्य;Fijī Gaṇarājya
+FIN;Finland;Republic of Finland;Suomi/Finland;Suomen tasavalta/Republiken Finland;
+FRA;France;French Republic;La France;République française;
+GUF;French Guiana;French Guiana;Guyane;Département de la Guyane;
+PYF;French Polynesia;French Polynesia;Polynésie française/Pōrīnetia Farāni;Polynésie française/Pōrīnetia Farāni;
+ATF;French Southern Territories;French Southern Territories;Terres australes et antarctiques françaises;Terres australes et antarctiques françaises;
+GAB;Gabon;Gabonese Republic;Gabon;République gabonaise;
+GMB;Gambia;Republic of The Gambia;Gambia;Republic of The Gambia;
+GEO;Georgia;Georgia;საქართველო;საქართველო;Sakartvelo
+DEU;Germany;Federal Republic of Germany;Deutschland;Bundesrepublik Deutschland;
+GHA;Ghana;Republic of Ghana;Ghana;Republic of Ghana;
+GIB;Gibraltar;Gibraltar;Gibraltar;Gibraltar;
+GRC;Greece;Hellenic Republic;Ελλάδα;Ελληνική Δημοκρατία;Ellinikí Dimokratía
+GRL;Greenland;Greenland;Kalaallit Nunaat/Grønland;Kalaallit Nunaat/Grønland;
+GRD;Grenada;Grenada;Gwenad;Gwenad;
+GLP;Guadeloupe;Guadeloupe;Gwadloup;Gwadloup;
+GUM;Guam;Guam;Guåhan;Guåhan;
+GTM;Guatemala;Republic of Guatemala;Guatemala;República de Guatemala;
+GGY;Guernsey;Guernsey;Guernsey;Guernsey;
+GIN;Guinea;Republic of Guinea;Guinée;République de Guinée;
+GNB;Guinea-Bissau;Republic of Guinea-Bissau;Guiné-Bissau;República da Guiné-Bissau;
+GUY;Guyana;Co-operative Republic of Guyana;Guyana;Co-operative Republic of Guyana;
+HTI;Haiti;Republic of Haiti;Haïti/Ayiti;République d'Haïti/Repiblik d Ayiti;
+HMD;Heard and Mc Donald Islands;Heard and Mc Donald Islands;Heard and Mc Donald Islands;Heard and Mc Donald Islands;
+VAT;Holy See (Vatican City State);Holy See (Vatican City State);Sancta Sedes/Santa Sede;Sancta Sedes/Santa Sede;
+HND;Honduras;Republic of Honduras;Honduras;República de Honduras;
+HKG;Hong Kong;Hong Kong;香港;香港;
+HUN;Hungary;Hungary;Magyarország;Magyarország;
+ISL;Iceland;Iceland;Ísland;Ísland;
+IND;India;Republic of India;भारत/Bhārat;भारत गणराज्य/Bhārat Gaṇrājya;
+IDN;Indonesia;Republic of Indonesia;Indonesia;Republik Indonesia;
+IRN;Iran, Islamic Republic of;Islamic Republic of Iran;ایران;جمهوری اسلامی ایران;Jomhuri-ye Eslāmi-ye Irān
+IRQ;Iraq;Republic of Iraq;الْعِرَاق/عێراق;جمهورية العراق/کۆماری عێراق;Jumhūriīyah al-ʿIrāq/Komarî Êraq
+IRL;Ireland;Republic of Ireland;Éire;Poblacht na hÉireann;
+IMN;Isle of Man;Isle of Man;Mannin, Ellan Vannin;Mannin, Ellan Vannin;
+ISR;Israel;State of Israel;מְדִינַת יִשְׂרָאֵל/دولة إسرائيل;יִשְׂרָאֵל/إِسْرَائِيل;
+ITA;Italy;Italian Republic;Italia;Repubblica Italiana;
+JAM;Jamaica;Jamaica;Jumieka;Jumieka;
+JPN;Japan;Japan;日本国;日本国;Nippon-koku
+JEY;Jersey;Bailiwick of Jersey;Jersey/Jèrriais/Jèrri;Bailiwick of Jersey/Bailliage de Jersey/Bailliage dé Jèrri;
+JOR;Jordan;Hashemite Kingdom of Jordan;الأردن;المملكة الأردنية الهاشمية ;Al-Mamlakah al-’Urdunniyyah Al-Hāshimiyyah
+KAZ;Kazakstan;Republic of Kazakhstan;Қазақстан;Қазақстан Республикасы;Qazaqstan Respublikasy
+KEN;Kenya;Republic of Kenya;Kenya;Republic of Kenya/Jamhuri ya Kenya;
+KIR;Kiribati;Republic of Kiribati;Kiribati;Ribaberiki Kiribati;
+PRK;Korea, Democratic People's Republic of;Democratic People's Republic of Korea;북한;조선민주주의인민공화국;Chosŏn Minjujuŭi Inmin Konghwaguk
+KOR;Korea, Republic of;Republic of Korea;대한민국;대한민국;Daehan Minguk
+XKX;Kosovo;Republic of Kosovo;Kosova/Косово;Republika e Kosovës/Република Косово;
+KWT;Kuwait;State of Kuwait;الكويت ;دولة الكويت ;Dawlat al-Kuwayt
+KGZ;Kyrgyzstan;Kyrgyz Republic;Кыргызстан;Кыргыз Республикасы;
+LAO;Laos;Lao People's Democratic Republic;ລາວ;ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ;Sathalanalat Paxathipatai Paxaxôn Lao
+LVA;Latvia;Republic of Latvia;Latvija/Leţmō;Latvijas Republika/Leţmō Vabāmō;
+LBN;Lebanon;Lebanese Republic;Liban/لُبْنَان‎;ٱلْجُمْهُورِيَّةُ ٱللُّبْنَانِيَّةُ/République Libanaise;
+LSO;Lesotho;;;;
+LBR;Liberia;;;;
+LBY;Libyan Arab Jamahiriya;;;;
+LIE;Liechtenstein;;;;
+LTU;Lithuania;;;;
+LUX;Luxembourg;;;;
+MAC;Macao;;;;
+MKD;Macedonia, The Former Yugoslav Republic Of;;;;
+MDG;Madagascar;;;;
+MWI;Malawi;;;;
+MYS;Malaysia;;;;
+MDV;Maldives;;;;
+MLI;Mali;;;;
+MLT;Malta;;;;
+MHL;Marshall Islands;;;;
+MTQ;Martinique;;;;
+MRT;Mauritania;;;;
+MUS;Mauritius;;;;
+MYT;Mayotte;;;;
+MEX;Mexico;;;;
+FSM;Micronesia, Federated States of;;;;
+MDA;Moldova, Republic of;;;;
+MCO;Monaco;;;;
+MNG;Mongolia;;;;
+MNE;Montenegro;;;;
+MSR;Montserrat;;;;
+MAR;Morocco;;;;
+MOZ;Mozambique;;;;
+MMR;Myanmar;;;;
+NAM;Namibia;;;;
+NRU;Nauru;;;;
+NPL;Nepal;;;;
+NLD;Netherlands;;;;
+NCL;New Caledonia;;;;
+NZL;New Zealand;;;;
+NIC;Nicaragua;;;;
+NER;Niger;;;;
+NGA;Nigeria;;;;
+NIU;Niue;;;;
+NFK;Norfolk Island;;;;
+MNP;Northern Mariana Islands;;;;
+NOR;Norway;;;;
+OMN;Oman;;;;
+PAK;Pakistan;;;;
+PLW;Palau;;;;
+PSE;Palestinian Territory, Occupied;;;;
+PAN;Panama;;;;
+PNG;Papua New Guinea;;;;
+PRY;Paraguay;;;;
+PER;Peru;;;;
+PHL;Philippines;;;;
+PCN;Pitcairn;;;;
+POL;Poland;;;;
+PRT;Portugal;;;;
+PRI;Puerto Rico;;;;
+QAT;Qatar;;;;
+SRB;Republic of Serbia;;;;
+REU;Reunion;;;;
+ROU;Romania;;;;
+RUS;Russia Federation;;;;
+RWA;Rwanda;;;;
+BLM;Saint Barthélemy;;;;
+SHN;Saint Helena;;;;
+KNA;Saint Kitts & Nevis;;;;
+LCA;Saint Lucia;;;;
+MAF;Saint Martin;;;;
+SPM;Saint Pierre and Miquelon;;;;
+VCT;Saint Vincent and the Grenadines;;;;
+WSM;Samoa;;;;
+SMR;San Marino;;;;
+STP;Sao Tome and Principe;;;;
+SAU;Saudi Arabia;;;;
+SEN;Senegal;;;;
+SYC;Seychelles;;;;
+SLE;Sierra Leone;;;;
+SGP;Singapore;;;;
+SXM;Sint Maarten;;;;
+SVK;Slovakia;;;;
+SVN;Slovenia;;;;
+SLB;Solomon Islands;;;;
+SOM;Somalia;;;;
+ZAF;South Africa;;;;
+SGS;South Georgia & The South Sandwich Islands;;;;
+SSD;South Sudan;;;;
+ESP;Spain;;;;
+LKA;Sri Lanka;;;;
+SDN;Sudan;;;;
+SUR;Suriname;;;;
+SJM;Svalbard and Jan Mayen;;;;
+SWZ;Swaziland;;;;
+SWE;Sweden;;;;
+CHE;Switzerland;;;;
+SYR;Syrian Arab Republic;;;;
+TWN;Taiwan, Province of China;;;;
+TJK;Tajikistan;;;;
+TZA;Tanzania, United Republic of;;;;
+THA;Thailand;;;;
+TLS;Timor-Leste;;;;
+TGO;Togo;;;;
+TKL;Tokelau;;;;
+TON;Tonga;;;;
+TTO;Trinidad and Tobago;;;;
+TUN;Tunisia;;;;
+TUR;Turkey;;;;
+XTX;Turkish Rep N Cyprus (temporary code);;;;
+TKM;Turkmenistan;;;;
+TCA;Turks and Caicos Islands;;;;
+TUV;Tuvalu;;;;
+UGA;Uganda;;;;
+UKR;Ukraine;;;;
+ARE;United Arab Emirates;;;;
+GBR;United Kingdom;;;;
+USA;United States;;;;
+UMI;United States Minor Outlying Islands;;;;
+URY;Uruguay;;;;
+UZB;Uzbekistan;;;;
+VUT;Vanuatu;;;;
+VEN;Venezuela;;;;
+VNM;Vietnam;;;;
+VGB;Virgin Islands, British;;;;
+VIR;Virgin Islands, U.S.;;;;
+WLF;Wallis and Futuna;;;;
+ESH;Western Sahara;;;;
+YEM;Yemen;;;;
+ZMB;Zambia;;;;
+ZWE;Zimbabwe;;;;

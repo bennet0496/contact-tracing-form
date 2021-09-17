@@ -118,41 +118,7 @@ if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
     require_once HERE."/vendor/autoload.php";
     ?>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
-    <title>Checkout example · Bootstrap</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Favicons -->
-    <meta name="theme-color" content="#563d7c">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-        @page {
-            size: 105mm 148mm;
-        }
-    </style>
-    <!-- Custom styles for this template -->
-    <link href="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
-</head>
+<?php require_once HERE."/include/inc_html_head.php"?>
 
 <body class="bg-light">
 <div class="container-sm">

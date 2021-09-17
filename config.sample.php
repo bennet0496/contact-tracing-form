@@ -41,6 +41,8 @@ EOT;
 const ORGANISATION = "ACME Corporation";
 $ORGANISATION = ORGANISATION;
 
+const DEFAULT_COUNTRY_ISO_CODE = "DEU";
+
 const PRIVACY_POLICY =<<<EOT
 <p>The data processing is necessary due to current legal corona regulaions in Saxony (Sächs. Corona-Schutzverordnung). Your personal data is stored solely for the purpose of maintaining access to the institute cafeteria. The data is not forwarded to any third parties. The data will be deleted</p>
 <ul>
