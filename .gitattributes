@@ -1,0 +1,5 @@
+js/bootstrap.* linguist-vendored
+css/bootstrap* linguist-vendored
+js/jquery* linguist-vendored
+js/form-validation.js linguist-vendored
+css/form-validation.css linguist-vendored
