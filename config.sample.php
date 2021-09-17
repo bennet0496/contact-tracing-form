@@ -67,3 +67,6 @@ const REQUIRE_TEST_TYPE_OF = ['Rapid Antigen', 'PCR'];
 
 const ISO_CODES = HERE."/include/iso_3digit_alpha_country_codes.csv";
 
+const IMPRINT_URL = "http://example.com/";
+const SUPPORT_URL = "http://example.com/";
+const PRIVACY_URL = "http://example.com/";

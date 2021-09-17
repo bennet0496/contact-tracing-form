@@ -14,4 +14,5 @@
     <!-- Custom styles for this template -->
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/formvalidation/dist/css/formValidation.min.css" rel="stylesheet">
     <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/github-fork-ribbon-css/gh-fork-ribbon.css"/>
 </head>
