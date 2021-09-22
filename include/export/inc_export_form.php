@@ -1,7 +1,6 @@
 <?php
-if(!defined("INCLUDED"))
-    die();
-require_once dirname(__FILE__)."/../../config.php";
+
+require_once __DIR__."/../../config.php";
 
 ?>
 <html lang="en">
@@ -20,7 +19,7 @@ require_once dirname(__FILE__)."/../../config.php";
     <div class="row">
         <?php require_once HERE."/include/inc_sidebar.php"?>
         <div class="col-md-8 order-md-1">
-            <form class="" novalidate="" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>?xsrf=<?php echo XSRF_TOKEN;?>">
+            <form class="" novalidate="" method="POST" action="<?= filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL); ?>?xsrf=<?= XSRF_TOKEN;?>">
                 <div class="form-row row">
                     <div class="form-group col-md-6">
                         <label class="" for="from">From</label>

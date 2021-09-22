@@ -1,10 +1,9 @@
 <?php
-if(!defined("INCLUDED"))
-    die();
+
 
 //chip ; Vorname ; Nachname ; Strasse ; PLZ ; Stadt ; tel ; mail ; valid recovery date
 
-require_once dirname(__FILE__)."/../../config.php";
+require_once __DIR__."/../../config.php";
 
 
 $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
@@ -18,7 +17,7 @@ $inputs = filter_input_array(INPUT_POST, array(
 ));
 
 $stmt = $mysqli->prepare(
-"SELECT *, ce.chip as real_chip FROM attendees a 
+    "SELECT *, ce.chip as real_chip FROM attendees a 
     LEFT JOIN check_events ce on a.id = ce.aid 
     LEFT JOIN verification_data vd on a.id = vd.aid
     WHERE ce.time BETWEEN ? AND ?"
@@ -61,7 +60,7 @@ error_log(print_r($inputs, true));
     <div class="row">
         <?php require_once HERE."/include/inc_sidebar.php"?>
         <div class="col-md-8 order-md-1">
-            <form class="d-print-none" novalidate="" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>?xsrf=<?php echo XSRF_TOKEN;?>">
+            <form class="d-print-none" novalidate="" method="POST" action="<?= filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL); ?>?xsrf=<?= XSRF_TOKEN;?>">
                 <div class="form-row row">
                     <div class="form-group col-md-6">
                         <label class="" for="from">From</label>
@@ -114,56 +113,65 @@ error_log(print_r($inputs, true));
                 <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit" value="submit">Export</button>
             </form>
             <hr class="mb-4">
-            <?php if($inputs['format'] == "csv") {?>
+            <?php if ($inputs['format'] == "csv") {?>
                 <textarea readonly class="form-text col-md-12"
-                          style="white-space: pre; min-height: 30vh; height: auto;"><?php foreach ($data as $row) { if($row['event'] != "checkin") continue;
-                    $v_to = PHP_INT_MAX/2;
-                    if($inputs["vv"] > 0 && !empty($row['vaccination_date'])) {
-                        try {
-                            $vd = new DateTime($row['vaccination_date']);
-                        } catch (Exception $e) {
-                            $vd = new DateTime("now");
-                        }
-                        try {
-                            $vd->add(new DateInterval("PT" . $inputs["vv"] . "S"));
-                        } catch (Exception $e) {
-                            //pass
+                          style="white-space: pre; min-height: 30vh; height: auto;"><?php foreach ($data as $row) {
+                                if ($row['event'] != "checkin") {
+                                    continue;
+                                }
+                                $v_to = PHP_INT_MAX/2;
+                                if ($inputs["vv"] > 0 && !empty($row['vaccination_date'])) {
+                                    try {
+                                        $vd = new DateTime($row['vaccination_date']);
+                                    } catch (Exception $e) {
+                                        $vd = new DateTime("now");
+                                    }
+                                    try {
+                                        $vd->add(new DateInterval("PT" . $inputs["vv"] . "S"));
+                                    } catch (Exception $e) {
+                                        //pass
+                                    }
+                                    $v_to = $vd->getTimestamp();
+                                }
+                                $r_to = PHP_INT_MAX/2;
+                                if ($inputs["rv"] > 0 && !empty($row['recovery_date'])) {
+                                    try {
+                                        $vd = new DateTime($row['recovery_date']);
+                                    } catch (Exception $e) {
+                                        $vd = new DateTime("now");
+                                    }
+                                    try {
+                                        $vd->add(new DateInterval("PT" . $inputs["rv"] . "S"));
+                                    } catch (Exception $e) {
+                                        //pass
+                                    }
+                                    $r_to = $vd->getTimestamp();
+                                }
 
-                        }
-                        $v_to = $vd->getTimestamp();
-                    }
-                    $r_to = PHP_INT_MAX/2;
-                    if($inputs["rv"] > 0 && !empty($row['recovery_date'])) {
-                        try {
-                            $vd = new DateTime($row['recovery_date']);
-                        } catch (Exception $e) {
-                            $vd = new DateTime("now");
-                        }
-                        try {
-                            $vd->add(new DateInterval("PT" . $inputs["rv"] . "S"));
-                        } catch (Exception $e) {
-                            //pass
-
-                        }
-                        $r_to = $vd->getTimestamp();
-                    }
-
-                    $f_to = min($r_to, $v_to);
-                    $date = new DateTime();
-                    $date->setTimestamp($f_to);
-                    if(intval($date->format("Y")) > 9999){
-                        $date->setDate(9999, 12, 31);
-                    }
-                    $date_string = $date->format("Y/m/d");
+                                $f_to = min($r_to, $v_to);
+                                $date = new DateTime();
+                                $date->setTimestamp($f_to);
+                                if (intval($date->format("Y")) > 9999) {
+                                    $date->setDate(9999, 12, 31);
+                                }
+                                $date_string = $date->format("Y/m/d");
                     //chip ; Vorname ; Nachname ; Strasse ; PLZ ; Stadt ; tel ; mail ; valid recovery date
-                    printf("%d;%s;%s;%s %s;%s;%s;%s;%s;%s\n",
-                        $row['real_chip'], $row['given_name'], $row['surname'],
-                        $row['street'], $row['house_nr'], $row['zip_code'], $row['city'],
-                        $row['phonenumber'] ?: "n/a", $row['email'] ?: "n/a", $date_string
-                    );
-                } ?>
+                                printf(
+                                    "%d;%s;%s;%s %s;%s;%s;%s;%s;%s\n",
+                                    $row['real_chip'],
+                                    $row['given_name'],
+                                    $row['surname'],
+                                    $row['street'],
+                                    $row['house_nr'],
+                                    $row['zip_code'],
+                                    $row['city'],
+                                    $row['phonenumber'] ?: "n/a",
+                                    $row['email'] ?: "n/a",
+                                    $date_string
+                                );
+                                                                                    } ?>
                 </textarea>
-            <?php } else if($inputs['format'] == "show") {?>
+            <?php } elseif ($inputs['format'] == "show") {?>
                 <table class="table table-hover table-bordered">
                     <thead class="thead-dark" style="background: #1b1e21; color: lightgray">
                     <tr>
@@ -187,19 +195,19 @@ error_log(print_r($inputs, true));
                     <tbody>
                     <?php
                     $counter = 0;
-                    foreach ($data as $row){ ?>
-                        <tr <?php echo $counter % 2 ? "class='bg-white'" : ""; ?>>
-                            <td><?php printf("%s, %s",$row['surname'], $row['given_name']); ?></td>
+                    foreach ($data as $row) { ?>
+                        <tr <?= $counter % 2 ? "class='bg-white'" : ""; ?>>
+                            <td><?php printf("%s, %s", $row['surname'], $row['given_name']); ?></td>
                             <td colspan="2"><?php printf("%s %s, %s %s %s, %s", $row['street'], $row['house_nr'], $row['zip_code'], $row['city'], $row['state'], $row['country']); ?></td>
                             <td><?php printf("%s, %s", $row['email'], $row['phonenumber']); ?></td>
                         </tr>
-                        <tr <?php echo $counter % 2 ? "class='bg-white'" : ""; ?>>
+                        <tr <?= $counter % 2 ? "class='bg-white'" : ""; ?>>
                             <td colspan="1"><?= $row['vaccination_status'] ? "vaccinated" : "no" ;?></td>
                             <td colspan="1"><?= $row['vaccination_date'];?></td>
                             <td colspan="1"><?= $row['recovery_status'] ? "recovered" : "no" ;?></td>
                             <td colspan="1"><?= $row['recovery_date'];?></td>
                         </tr>
-                        <tr <?php echo $counter % 2 ? "class='bg-white'" : ""; ?> style="border-bottom-width: thick;">
+                        <tr <?= $counter % 2 ? "class='bg-white'" : ""; ?> style="border-bottom-width: thick;">
                             <td colspan="1"><?= $row['test_status'] ? "tested" : "no" ;?></td>
                             <td colspan="1"><?= $row['test_datetime'];?></td>
                             <td colspan="1"><?= $row['test_type'];?></td>

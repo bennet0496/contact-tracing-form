@@ -1,7 +1,6 @@
 <?php
-if(!defined("INCLUDED"))
-    die();
-require_once dirname(__FILE__)."/../../config.php";
+
+require_once __DIR__."/../../config.php";
 ?>
 <html lang="en">
 <?php require_once HERE."/include/inc_html_head.php"; ?>
@@ -21,7 +20,7 @@ require_once dirname(__FILE__)."/../../config.php";
         <?php require_once HERE."/include/inc_sidebar.php"?>
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Core data&nbsp;<span></span></h4>
-            <form class="needs-validation" novalidate="" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>?xsrf=<?php echo XSRF_TOKEN;?>" autocomplete="off">
+            <form class="needs-validation" novalidate="" method="POST" action="<?= filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL); ?>?xsrf=<?= XSRF_TOKEN;?>" autocomplete="off">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="firstName">First name<span style="color: red;">*</span></label>
@@ -86,11 +85,13 @@ require_once dirname(__FILE__)."/../../config.php";
                         <select class="form-select" id="country" name="country" autocomplete="nope">
                             <?php
                             $f = fopen(ISO_CODES, 'r');
-                            while(($csv = fgetcsv($f, 0, ";"))){
+                            while (($csv = fgetcsv($f, 0, ";"))) {
                                 ?>
-                                <option value="<?php echo $csv[0]; ?>"
-                                    <?php if("DEU" == $csv[0]) echo "selected"?>>
-                                    <?php printf("%s (%s)",$csv[1],$csv[3]); ?>
+                                <option value="<?= $csv[0]; ?>"
+                                    <?php if ("DEU" == $csv[0]) {
+                                        echo "selected";
+                                    }?>>
+                                    <?php printf("%s (%s)", $csv[1], $csv[3]); ?>
                                 </option>
                                 <?php
                             }
@@ -139,7 +140,7 @@ require_once dirname(__FILE__)."/../../config.php";
                         </label>
                     </div>
                 </div>
-                <?php if(REQUIRE_VACCINATION_STATUS){ ?>
+                <?php if (REQUIRE_VACCINATION_STATUS) { ?>
                     <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="vaccinated" name="vaccinated">
@@ -151,7 +152,7 @@ require_once dirname(__FILE__)."/../../config.php";
                         </div>
                     </div>
                 <?php } ?>
-                <?php if(REQUIRE_VACCINATION_DATE){ ?>
+                <?php if (REQUIRE_VACCINATION_DATE) { ?>
                     <div class="mb-3">
                         <label for="vdate">Date of Full Vaccination</label>
                         <input type="date" class="form-control" id="vdate" name="vdate">
@@ -160,7 +161,7 @@ require_once dirname(__FILE__)."/../../config.php";
                         </div>
                     </div>
                 <?php } ?>
-                <?php if(REQUIRE_RECOVERY_STATUS){ ?>
+                <?php if (REQUIRE_RECOVERY_STATUS) { ?>
                     <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="recovered" name="recovered" >
@@ -170,7 +171,7 @@ require_once dirname(__FILE__)."/../../config.php";
                         </div>
                     </div>
                 <?php } ?>
-                <?php if(REQUIRE_RECOVERY_DATE){ ?>
+                <?php if (REQUIRE_RECOVERY_DATE) { ?>
                     <div class="mb-3">
                         <label for="rdate">Recovery Date</label>
                         <input type="date" class="form-control" id="rdate" name="rdate">
@@ -179,7 +180,7 @@ require_once dirname(__FILE__)."/../../config.php";
                         </div>
                     </div>
                 <?php } ?>
-                <?php if(REQUIRE_TEST_STATUS){ ?>
+                <?php if (REQUIRE_TEST_STATUS) { ?>
                     <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="tested" name="tested" >
@@ -189,7 +190,7 @@ require_once dirname(__FILE__)."/../../config.php";
                         </div>
                     </div>
                 <?php } ?>
-                <?php if(REQUIRE_TEST_DATE){ ?>
+                <?php if (REQUIRE_TEST_DATE) { ?>
                     <div class="mb-3">
                         <label for="tdate">Test Date and Time</label>
                         <input type="datetime-local" class="form-control" id="tdate" name="tdate" >
@@ -198,7 +199,7 @@ require_once dirname(__FILE__)."/../../config.php";
                         </div>
                     </div>
                 <?php } ?>
-                <?php if(!empty(REQUIRE_TEST_AGENCY_OF)){ ?>
+                <?php if (!empty(REQUIRE_TEST_AGENCY_OF)) { ?>
                     <div class="mb-3">
                         <p>Test Agency</p>
                         <?php foreach (REQUIRE_TEST_AGENCY_OF as $key => $agency) { ?>
@@ -208,7 +209,7 @@ require_once dirname(__FILE__)."/../../config.php";
                         <?php } ?>
                     </div>
                 <?php } ?>
-                <?php if(!empty(REQUIRE_TEST_TYPE_OF)){ ?>
+                <?php if (!empty(REQUIRE_TEST_TYPE_OF)) { ?>
                     <div class="mb-3">
                         <p>Test Type</p>
                         <?php foreach (REQUIRE_TEST_TYPE_OF as $key => $tt) { ?>

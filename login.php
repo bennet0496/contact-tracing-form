@@ -1,17 +1,17 @@
 <?php
 ob_start();
 
-define("INCLUDED", true);
 
-if(!session_start()){
+
+if (!session_start()) {
     header($_SERVER['SERVER_PROTOCOL']." 500 Internal Server Error");
     ob_flush();
     die();
 }
 
 $strong = false;
-$t = openssl_random_pseudo_bytes(16,$strong);
-if($t == false) {
+$t = openssl_random_pseudo_bytes(16, $strong);
+if ($t == false) {
     header($_SERVER['SERVER_PROTOCOL']." 500 Internal Server Error");
     ob_flush();
     die();
@@ -25,17 +25,17 @@ $_SESSION['XSRF_TOKEN'] = XSRF_TOKEN;
 $error = false;
 $errors = array();
 
-require_once dirname(__FILE__) . "/include/audit/inc_audit_log_function.php";
+require_once __DIR__ . "/include/audit/inc_audit_log_function.php";
 
-if(isset($_POST['submit']) && $_POST['submit'] == "login") {
+if (isset($_POST['submit']) && $_POST['submit'] == "login") {
     $in_token = filter_input(INPUT_GET, "xsrf", FILTER_SANITIZE_STRING);
-    if($in_token != $OLD_TOKEN) {
-        require_once dirname(__FILE__). "/xsrf_error.php";
+    if ($in_token != $OLD_TOKEN) {
+        require_once __DIR__. "/xsrf_error.php";
         ob_flush();
         exit(0);
     }
 
-    require_once dirname(__FILE__)."/config.php";
+    require_once __DIR__."/config.php";
 
     $inputs = filter_input_array(INPUT_POST, array(
         'username' => FILTER_SANITIZE_STRING,
@@ -45,27 +45,27 @@ if(isset($_POST['submit']) && $_POST['submit'] == "login") {
     /** @noinspection PhpUndefinedVariableInspection */
     $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
-    if(!($s = $mysqli->prepare("SELECT * FROM users WHERE username = ?"))){
+    if (!($s = $mysqli->prepare("SELECT * FROM users WHERE username = ?"))) {
         $error = true;
         array_push($errors, "Error logging in ".$mysqli->errno);
     }
-    if(!($s->bind_param("s", $inputs['username']))) {
+    if (!($s->bind_param("s", $inputs['username']))) {
         $error = true;
         array_push($errors, "Error logging in ".$mysqli->errno);
     }
-    if(!($s->execute())){
+    if (!($s->execute())) {
         $error = true;
         array_push($errors, "Error logging in ".$mysqli->errno);
     }
 
-    if(!$error) {
+    if (!$error) {
         $r = $s->get_result();
         $data = $r->fetch_assoc();
-        if($data == null) {
+        if ($data == null) {
             $error = true;
             audit(null, "login_fail", json_encode(["from" => $_SERVER['REMOTE_ADDR']]));
         } else {
-            if(!password_verify($inputs['password'], $data['password'])){
+            if (!password_verify($inputs['password'], $data['password'])) {
                 $error = true;
                 audit(null, "login_fail", json_encode(["from" => $_SERVER['REMOTE_ADDR']]));
             } else {
@@ -79,7 +79,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == "login") {
                 $return = filter_input(INPUT_GET, "return", FILTER_SANITIZE_URL);
                 audit($data['id'], "login", json_encode(["from" => $_SERVER['REMOTE_ADDR']]));
                 /** @noinspection PhpUndefinedVariableInspection */
-                if(in_array(parse_url($return, PHP_URL_HOST), $TRUSTED_HOSTS)) {
+                if (in_array(parse_url($return, PHP_URL_HOST), $TRUSTED_HOSTS)) {
                     header("Location: ".$return, true, 302);
                 } else {
                     header("Location: verify.php", true, 302);
@@ -89,8 +89,8 @@ if(isset($_POST['submit']) && $_POST['submit'] == "login") {
         }
     }
 }
-if(!isset($_POST['submit']) || $_POST['submit'] != "login" || $error){
-?>
+if (!isset($_POST['submit']) || $_POST['submit'] != "login" || $error) {
+    ?>
 <html lang="en" data-lt-installed="true">
 <head>
     <meta charset="utf-8">
@@ -101,7 +101,7 @@ if(!isset($_POST['submit']) || $_POST['submit'] != "login" || $error){
     <title>LOGIN</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <meta name="theme-color" content="#7952b3">
 
@@ -165,10 +165,10 @@ if(!isset($_POST['submit']) || $_POST['submit'] != "login" || $error){
 <body class="text-center container">
 
 <main class="form-signin py-5 row">
-    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>?xsrf=<?php echo XSRF_TOKEN; ?>">
+    <form method="POST" action="<?= filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL); ?>?xsrf=<?= XSRF_TOKEN; ?>">
         <img class="mb-4" src="<?= LOGO_WEB_PATH; ?>" alt="" height="57">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-        <?php if($error){ ?>
+        <?php if ($error) { ?>
         <div class="alert alert-error" role="alert">
             Login Failed!
         </div>

@@ -1,7 +1,6 @@
 <?php
-if(!defined("INCLUDED"))
-    die();
-require_once dirname(__FILE__)."/../../config.php";
+
+require_once __DIR__."/../../config.php";
 ?>
 <html lang="en">
 <?php require_once HERE."/include/inc_html_head.php"; ?>
@@ -19,12 +18,12 @@ require_once dirname(__FILE__)."/../../config.php";
     <div class="row">
         <?php require_once HERE."/include/inc_sidebar.php"?>
         <div class="col-md-8 order-md-1">
-            <?php if(defined("ERROR")){ ?>
+            <?php if (defined("ERROR")) { ?>
                 <div class="alert alert-danger" role="alert">
                     There was an error retrieving the entry. Either because it does not exists or the UUID was malformed!
                 </div>
             <?php } ?>
-            <form class="needs-validation" novalidate="" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>?xsrf=<?php echo XSRF_TOKEN;?>">
+            <form class="needs-validation" novalidate="" method="POST" action="<?= filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL); ?>?xsrf=<?= XSRF_TOKEN;?>">
                 <div class="mb-3">
                     <label class="visually-hidden" for="search">Scan QR code</label>
                     <div class="input-group">

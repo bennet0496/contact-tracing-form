@@ -2,17 +2,16 @@
 //error_reporting(E_ALL);
 //ini_set('display_errors', 'on');
 
-if(!defined("INCLUDED"))
-    die();
 
-require_once dirname(__FILE__)."/../../config.php";
+
+require_once __DIR__."/../../config.php";
 
 require_once HERE."/include/functions.php";
 
 $locale = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 error_log($locale);
 
-(include_once HERE."/locale/".preg_replace("/[\/\\\]/","",$locale).".php") ?: include_once HERE."/locale/default.php";
+(include_once HERE."/locale/".preg_replace("/[\/\\\]/", "", $locale).".php") ?: include_once HERE."/locale/default.php";
 
 /** @noinspection PhpUndefinedVariableInspection */
 $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
@@ -40,21 +39,35 @@ $inputs = filter_input_array(INPUT_POST, array(
 $error = false;
 $errors = array();
 
-if($inputs['submit'] != "resend") {
+if ($inputs['submit'] != "resend") {
     $pp = checkbox2bool($inputs['privacy_policy']);
 
-    if(is_null($inputs['surname']) || is_null($inputs['given_name']) || is_null($inputs['email']) ||
+    if (is_null($inputs['surname']) || is_null($inputs['given_name']) || is_null($inputs['email']) ||
         is_null($inputs['phonenumber']) || is_null($inputs['street']) || is_null($inputs['house_nr']) ||
-        is_null($inputs['zip_code']) || is_null($inputs['city']) || !$pp){
+        is_null($inputs['zip_code']) || is_null($inputs['city']) || !$pp) {
         define("ERROR", true);
-        require_once dirname(__FILE__)."/inc_register_form.php";
+        require_once __DIR__."/inc_register_form.php";
         exit();
     }
 
     try {
-        $uuid = insert_new_attendee($mysqli, null, $inputs['surname'], $inputs['given_name'],
-            $inputs['email'], $inputs['phonenumber'], $inputs['street'], $inputs['house_nr'],
-            $inputs['zip_code'], $inputs['city'], $inputs['state'], $inputs['country'], $inputs['chip'], $pp);
+        /** @noinspection PhpExpressionAlwaysConstantInspection */
+        $uuid = insert_new_attendee(
+            $mysqli,
+            null,
+            $inputs['surname'],
+            $inputs['given_name'],
+            $inputs['email'],
+            $inputs['phonenumber'],
+            $inputs['street'],
+            $inputs['house_nr'],
+            $inputs['zip_code'],
+            $inputs['city'],
+            $inputs['state'],
+            $inputs['country'],
+            $inputs['chip'],
+            $pp
+        );
     } catch (Exception $e) {
         saveDie();
     }
@@ -69,11 +82,11 @@ try {
     saveDie();
 }
 
-if(isset($row['email']) && $row['email'] != "") {
+if (isset($row['email']) && $row['email'] != "") {
     try {
         $bytes = random_bytes(5);
         $mail_challenge = bin2hex($bytes);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         mt_srand(time());
         $mail_challenge = mt_rand(1000000000, 99999999999);
     }
@@ -110,7 +123,6 @@ if(isset($row['email']) && $row['email'] != "") {
     } catch (\PHPMailer\PHPMailer\Exception $e) {
         saveDie();
     }
-
 } else {
     saveDie();
 }
@@ -132,7 +144,7 @@ if(isset($row['email']) && $row['email'] != "") {
 
     <div class="row">
         <div class="col-md-8 order-md-1 offset-md-2">
-            <form class="needs-validation" novalidate="" method="POST" action="<?= $_SERVER['PHP_SELF']; ?>">
+            <form class="needs-validation" novalidate="" method="POST" action="<?= filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL); ?>">
                 <span><?= LANG("Please enter your verification code"); ?></span>
                 <div class="mb-3">
                     <label class="visually-hidden" for="code"><?= LANG("Please enter your verification code"); ?></label>

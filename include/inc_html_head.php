@@ -7,12 +7,12 @@
     <title>COVID Contact tracing checkin</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Favicons -->
     <meta name="theme-color" content="#563d7c">
     <!-- Custom styles for this template -->
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/formvalidation/dist/css/formValidation.min.css" rel="stylesheet">
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/github-fork-ribbon-css/gh-fork-ribbon.css"/>
+    <link href="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/node_modules/formvalidation/dist/css/formValidation.min.css" rel="stylesheet">
+    <link href="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/node_modules/github-fork-ribbon-css/gh-fork-ribbon.css"/>
 </head>

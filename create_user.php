@@ -1,10 +1,10 @@
 <?php
-define("INCLUDED", true);
-
-if(php_sapi_name() != "cli")
+if (php_sapi_name() != "cli") {
     die();
+}
 
-require_once dirname(__FILE__)."/config.php";
+
+require_once __DIR__."/config.php";
 
 function getPassword($stars = false)
 {
@@ -23,7 +23,7 @@ function getPassword($stars = false)
 
             if ($char === "\n") {
                 break;
-            } else if (ord($char) === 127) {
+            } elseif (ord($char) === 127) {
                 if (strlen($password) > 0) {
                     fwrite(STDOUT, "\x08 \x08");
                     $password = substr($password, 0, -1);
@@ -42,17 +42,16 @@ function getPassword($stars = false)
     return $password;
 }
 
-/** @noinspection PhpUndefinedVariableInspection */
 $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
 $user = readline("User [".$argv[1]."]: ");
-if($user == null || $user == ""){
+if ($user == null || $user == "") {
     $user = $argv[1];
 }
 $g = readline("Given name         : ");
 $sn = readline("Surname            : ");
 fwrite(STDOUT, "Password           : ");
-$password = getPassword(false);
+$password = getPassword();
 
 $hash = password_hash($password, PASSWORD_ARGON2I);
 

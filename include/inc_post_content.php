@@ -1,6 +1,6 @@
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
+<script src="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/js/jquery-3.5.1.min.js"></script>
 
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
+<script src="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/js/bootstrap.bundle.min.js"></script>
 
 <!--suppress JSUnresolvedVariable -->
 <script>
@@ -23,4 +23,4 @@
         });
     });
 </script>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/formvalidation/dist/js/formValidation.js"></script>
+<script src="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/node_modules/formvalidation/dist/js/formValidation.js"></script>

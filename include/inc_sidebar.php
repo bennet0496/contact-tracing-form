@@ -1,10 +1,9 @@
 <?php
-if (!defined("INCLUDED"))
-    die();
+
 
 ?>
 <div class="col-md-4 order-md-2 mb-4 d-print-none">
-    <p class="text-muted text-small px-1">Logged in as <?php echo $_SESSION['userdata']['common_name'];?><br /><a href="logout.php">Logout</a></p>
+    <p class="text-muted text-small px-1">Logged in as <?= $_SESSION['userdata']['common_name'];?><br /><a href="logout.php">Logout</a></p>
     <div class="list-group mb-3">
         <a class="list-group-item d-flex justify-content-between lh-condensed" href="record.php">
             <div>
@@ -27,14 +26,14 @@ if (!defined("INCLUDED"))
             </div>
             <span class="text-muted"><i class="bi bi-search" style="font-size: 28px"></i></span>
         </a>
-        <a class="list-group-item d-flex justify-content-between lh-condensed" href="audit.php?xsrf=<?php echo XSRF_TOKEN;?>">
+        <a class="list-group-item d-flex justify-content-between lh-condensed" href="audit.php?xsrf=<?= XSRF_TOKEN;?>">
             <div>
                 <h6 class="my-0">Audit</h6>
                 <small class="text-muted">Open Audit Log</small>
             </div>
             <span class="text-muted"><i class="bi bi-card-list" style="font-size: 28px"></i></span>
         </a>
-        <a class="list-group-item d-flex justify-content-between lh-condensed" href="export.php?xsrf=<?php echo XSRF_TOKEN;?>">
+        <a class="list-group-item d-flex justify-content-between lh-condensed" href="export.php?xsrf=<?= XSRF_TOKEN;?>">
             <div>
                 <h6 class="my-0">Export</h6>
                 <small class="text-muted">Show or Export attendees</small>

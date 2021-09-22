@@ -1,14 +1,14 @@
 <?php
-if(!defined("INCLUDED"))
-    die();
 
-require_once dirname(__FILE__)."/../../config.php";
+use chillerlan\QRCode\QRCode;
+
+require_once __DIR__."/../../config.php";
 require_once HERE."/include/functions.php";
 
 $locale = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 error_log($locale);
 
-(include_once HERE."/locale/".preg_replace("/[\/\\\]/","",$locale).".php") ?: include_once HERE."/locale/default.php";
+(include_once HERE."/locale/".preg_replace("/[\/\\\]/", "", $locale).".php") ?: include_once HERE."/locale/default.php";
 
 
 /** @noinspection PhpUndefinedVariableInspection */
@@ -25,19 +25,19 @@ $error = false;
 $errors = array();
 
 //$id = $mysqli->query("SELECT id from attendees WHERE uuid = \"".$uuid."\"")->fetch_row()[0];
-if(!($stmt = $mysqli->prepare("SELECT * FROM attendees WHERE uuid = ?"))){
+if (!($stmt = $mysqli->prepare("SELECT * FROM attendees WHERE uuid = ?"))) {
     $error = true;
     array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
 }
-if(!$stmt->bind_param("s", $inputs['uuid'])){
+if (!$stmt->bind_param("s", $inputs['uuid'])) {
     $error = true;
     array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
 }
-if(!$stmt->execute()){
+if (!$stmt->execute()) {
     $error = true;
     array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
 }
-if(!($result = $stmt->get_result())){
+if (!($result = $stmt->get_result())) {
     $error = true;
     array_push($errors, "Error getting result (attendees) ".$mysqli->errno);
 }
@@ -65,12 +65,11 @@ try {
 
 
 /** @noinspection PhpUndefinedVariableInspection */
-if(is_null($challenge)){
+if (is_null($challenge)) {
     saveDie();
 }
 
-if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
-
+if (isset($inputs['code']) && in_array(trim($inputs['code']), $challenge)) {
     if (!($stmt = $mysqli->prepare("UPDATE detail_verification SET verification_date = NOW() WHERE user = ? AND credential = 'EMAIL'"))) {
         $error = true;
         array_push($errors, "Error saving to database (detail_verification) " . $mysqli->errno);
@@ -93,7 +92,7 @@ if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
     require_once HERE."/vendor/autoload.php";
     ?>
 <html lang="en">
-<?php require_once HERE."/include/inc_html_head.php"?>
+    <?php require_once HERE."/include/inc_html_head.php"?>
 
 <body class="bg-light">
 <div class="container">
@@ -111,7 +110,7 @@ if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
             <div class="row">
                 <div class="col mb-3 text-center">
                     <img src="<?php /** @noinspection PhpUndefinedVariableInspection */
-                    echo (new \chillerlan\QRCode\QRCode())->render($row['uuid']) ?>" />
+                    echo (new QRCode())->render($row['uuid']) ?>" />
                     <p class="text-muted"><?= $row['uuid'];?></p>
                 </div>
             </div>
@@ -131,11 +130,11 @@ if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
                     </p>
                     <p>
                         <b><?= LANG("Email");?></b><br />
-                        <?php echo $row['email'] != "" ? htmlentities($row['email']) : "N/A" ;?>
+                        <?= $row['email'] != "" ? htmlentities($row['email']) : "N/A" ;?>
                     </p>
                     <p>
                         <b><?= LANG("Phone number");?></b><br />
-                        <?php echo $row['phonenumber'] != "" ? htmlentities($row['phonenumber']) : "N/A" ;?>
+                        <?= $row['phonenumber'] != "" ? htmlentities($row['phonenumber']) : "N/A" ;?>
                     </p>
                     <p>
                         <b><?= LANG("Address");?></b><br />
@@ -159,7 +158,7 @@ EOT );
                     <button class="btn btn-primary btn-lg btn-block d-print-none col-12" onclick="window.print()"><?= LANG("Print");?></button>
                 </div>
                 <div class="col-md-6">
-                    <form method="POST" action="<?= $_SERVER['PHP_SELF']; ?>">
+                    <form method="POST" action="<?= filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL); ?>">
                         <input type="hidden" name="uuid" value="<?= $row['uuid'];?>">
                         <input type="hidden" name="code" value="<?= htmlentities($inputs['code']);?>">
                         <button class="btn btn-outline-primary btn-lg btn-block d-print-none col-12" type="submit" name="submit" value="mail"><?= LANG("Send via email");?></button>
@@ -176,9 +175,9 @@ EOT );
         </div>
     </div>
 </div>
-<script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
+<script src="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/js/jquery-3.5.1.min.js"></script>
 
-<script src="<?= rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
+<script src="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
@@ -201,7 +200,7 @@ EOT );
                 <div class="alert alert-danger" role="alert">
                     <?= LANG("The code you entered was invalid");?>
                 </div>
-                <form class="needs-validation" novalidate="" method="POST" action="<?= $_SERVER['PHP_SELF']; ?>">
+                <form class="needs-validation" novalidate="" method="POST" action="<?= filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL); ?>">
                     <span><?= LANG("Please enter your verification code"); ?></span>
                     <div class="mb-3">
                         <label class="visually-hidden" for="code"><?= LANG("Please enter your verification code"); ?></label>

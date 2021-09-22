@@ -1,8 +1,7 @@
 <?php /** @noinspection DuplicatedCode */
-if(!defined("INCLUDED"))
-    die();
 
-require_once dirname(__FILE__)."/../../config.php";
+
+require_once __DIR__."/../../config.php";
 
 require_once HERE."/include/functions.php";
 
@@ -38,19 +37,30 @@ try {
     $recct = checkbox2bool($inputs['recovered']);
     $tested = checkbox2bool($inputs['tested']);
     foreach ($inputs as &$i) {
-        if(empty($i)){
+        if (empty($i)) {
             $i = null;
         }
     }
-    verify_person_status($mysqli, $row_person['id'], $vacced, $inputs['vdate'], $recct, $inputs['rdate'],
-        $tested, $inputs['tdate'], $inputs['test_type'], $inputs['test_agency'], $pp);
+    verify_person_status(
+        $mysqli,
+        $row_person['id'],
+        $vacced,
+        $inputs['vdate'],
+        $recct,
+        $inputs['rdate'],
+        $tested,
+        $inputs['tdate'],
+        $inputs['test_type'],
+        $inputs['test_agency'],
+        $pp
+    );
 
-    if($_POST['submit'] != "invalidate") {
+    if ($_POST['submit'] != "invalidate") {
         verify_core_data($mysqli, $row_person['id']);
         checkin($mysqli, $row_person['id'], $inputs['chip']);
     }
-} catch (Exception $e){
+} catch (Exception $e) {
     saveDie();
 }
 
-require_once dirname(__FILE__)."/inc_verify_done.php";
+require_once __DIR__."/inc_verify_done.php";

@@ -1,13 +1,13 @@
 <?php
-if(!defined("INCLUDED"))
-    die();
 
-require_once dirname(__FILE__)."/../../config.php";
+
+require_once __DIR__."/../../config.php";
 
 $locale = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 error_log($locale);
 
-(include_once HERE."/locale/".preg_replace("/[\/\\\]/","",$locale).".php") ?: include_once HERE."/locale/default.php";
+/** @noinspection PhpIncludeInspection */
+(include_once HERE."/locale/".preg_replace("/[\/\\\]/", "", $locale).".php") ?: include_once HERE."/locale/default.php";
 
 ?>
 <html lang="en">
@@ -27,8 +27,8 @@ error_log($locale);
     <div class="row">
         <div class="col-md-8 order-md-1 offset-md-2">
             <h4 class="mb-3"><?= LANG("Core data") ?>&nbsp;<span></span></h4>
-            <form class="needs-validation" novalidate="" method="POST" action="<?= $_SERVER['PHP_SELF']; ?>">
-                <?php if(defined("ERROR")){ ?>
+            <form class="needs-validation" novalidate="" method="POST" action="<?= filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL); ?>">
+                <?php if (defined("ERROR")) { ?>
                 <div class="alert alert-danger" role="alert">
                     <?= LANG("The from contains errors");?>
                 </div>
@@ -97,9 +97,11 @@ error_log($locale);
                         <select class="form-select" id="country" name="country">
                         <?php
                         $f = fopen(ISO_CODES, 'r');
-                        while(($csv = fgetcsv($f, 0, ";"))){
+                        while (($csv = fgetcsv($f, 0, ";"))) {
                             ?>
-                            <option value="<?php echo $csv[0]; ?>" <?php if(DEFAULT_COUNTRY_ISO_CODE == $csv[0]) echo "selected"?>><?= sprintf("%s (%s)",$csv[1],$csv[3]); ?></option>
+                            <option value="<?= $csv[0]; ?>" <?php if (DEFAULT_COUNTRY_ISO_CODE == $csv[0]) {
+                                echo "selected";
+                                           }?>><?= sprintf("%s (%s)", $csv[1], $csv[3]); ?></option>
                             <?php
                         }
                         ?>
@@ -142,9 +144,11 @@ error_log($locale);
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="privacy_policy" name="privacy_policy" required>
                         <label class="form-check-label" for="privacy_policy">
-                            <?php echo preg_replace("/\|(.*)?\|/",
-                            "<a href=\"#\" data-toggle=\"modal\" data-target=\"#privacy_policy_modal\">$1</a>",
-                                LANG("I read the |Privacy Policy| and agree to the data processing"));?>
+                            <?= preg_replace(
+                                "/\|(.*)?\|/",
+                                "<a href=\"#\" data-toggle=\"modal\" data-target=\"#privacy_policy_modal\">$1</a>",
+                                LANG("I read the |Privacy Policy| and agree to the data processing")
+                            );?>
 
                         </label>
                     </div>
@@ -169,7 +173,7 @@ error_log($locale);
                     <h5 class="modal-title" id="privacy_policy_modal_label"><?= LANG("Privacy Policy");?></h5>
                 </div>
                 <div class="modal-body">
-                    <?php echo PRIVACY_POLICY;?>
+                    <?= PRIVACY_POLICY;?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= LANG("Close");?></button>

@@ -1,5 +1,5 @@
 <?php
-CONST LANG = [
+const LANG = [
     "Registration form" => "Registrierungsformular",
     "Core data" => "Kerndaten",
     #: inc_register_form.php:67
@@ -70,8 +70,9 @@ CONST LANG = [
     "The from contains errors" => "Das Formular enh&auml;lt Fehler!"
 ];
 
-function LANG($msg) {
-    if(key_exists($msg, LANG)){
+function LANG($msg)
+{
+    if (key_exists($msg, LANG)) {
         return LANG[$msg];
     } else {
         return $msg;

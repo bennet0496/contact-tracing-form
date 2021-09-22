@@ -1,8 +1,7 @@
 <?php
-if(!defined("INCLUDED"))
-    die();
 
-require_once dirname(__FILE__)."/../../config.php";
+
+require_once __DIR__."/../../config.php";
 
 $mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
@@ -55,22 +54,24 @@ $result = $stmt->get_result();
                     <tbody>
             <?php
             $counter = 0;
-            while (($row = $result->fetch_assoc())){
-                $row = array_map(function($e){ return htmlentities($e); }, $row);
-                if(is_null($row['uid']) || empty($row['uid'])) {
+            while (($row = $result->fetch_assoc())) {
+                $row = array_map(function ($e) {
+                    return htmlentities($e);
+                }, $row);
+                if (empty($row['uid'])) {
                     $row['common_name'] = "<i>Anonymous</i>";
                 }
                 ?>
-                <tr <?php echo $counter % 2 ? "class='bg-white'" : ""; ?>>
-                   <td><?php echo $row['common_name']; ?></td>
-                   <td><?php echo $row['action']; ?></td>
-                   <td><?php echo $row['time']; ?></td>
+                <tr <?= $counter % 2 ? "class='bg-white'" : ""; ?>>
+                   <td><?= $row['common_name']; ?></td>
+                   <td><?= $row['action']; ?></td>
+                   <td><?= $row['time']; ?></td>
                 </tr>
-                <tr <?php echo $counter % 2 ? "class='bg-white'" : ""; ?>>
-                    <td colspan="3"><code><pre><?php echo htmlentities(json_encode(json_decode(html_entity_decode($row['data'])),JSON_PRETTY_PRINT)); ?></pre></code></td>
+                <tr <?= $counter % 2 ? "class='bg-white'" : ""; ?>>
+                    <td colspan="3"><code><pre><?= htmlentities(json_encode(json_decode(html_entity_decode($row['data'])), JSON_PRETTY_PRINT)); ?></pre></code></td>
                 </tr>
-            <?php
-            $counter++;
+                <?php
+                $counter++;
             } ?>
                     </tbody>
                     </table>
@@ -80,28 +81,28 @@ $result = $stmt->get_result();
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link" href="?xsrf=<?php echo XSRF_TOKEN;?>&page=1" aria-label="First">
+                <a class="page-link" href="?xsrf=<?= XSRF_TOKEN;?>&page=1" aria-label="First">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">First</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?xsrf=<?php echo XSRF_TOKEN;?>&page=<?php echo max(1,$page - 1)?>" aria-label="Previous">
+                <a class="page-link" href="?xsrf=<?= XSRF_TOKEN;?>&page=<?= max(1, $page - 1)?>" aria-label="Previous">
                     <span aria-hidden="true">&lt;</span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
-            <?php for ($i = max(1, $page - 3); $i <= min($page + 7,ceil($num / 100)); $i++) {?>
-                <li class="page-item <?php echo $page == $i ? "active" : "";?>"><a class="page-link" href="?xsrf=<?php echo XSRF_TOKEN;?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+            <?php for ($i = max(1, $page - 3); $i <= min($page + 7, ceil($num / 100)); $i++) {?>
+                <li class="page-item <?= $page == $i ? "active" : "";?>"><a class="page-link" href="?xsrf=<?= XSRF_TOKEN;?>&page=<?= $i; ?>"><?= $i; ?></a></li>
             <?php } ?>
             <li class="page-item">
-                <a class="page-link" href="?xsrf=<?php echo XSRF_TOKEN;?>&page=<?php echo min($page + 1, ceil($num / 100))?>" aria-label="Next">
+                <a class="page-link" href="?xsrf=<?= XSRF_TOKEN;?>&page=<?= min($page + 1, ceil($num / 100))?>" aria-label="Next">
                     <span aria-hidden="true">&gt;</span>
                     <span class="sr-only">Next</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?xsrf=<?php echo XSRF_TOKEN;?>&page=<?php echo ceil($num / 100)?>" aria-label="Last">
+                <a class="page-link" href="?xsrf=<?= XSRF_TOKEN;?>&page=<?= ceil($num / 100)?>" aria-label="Last">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Last</span>
                 </a>

@@ -1,8 +1,8 @@
 <?php
-if(!defined("INCLUDED"))
-    die();
 
-require_once dirname(__FILE__)."/../../config.php";
+use chillerlan\QRCode\QRCode;
+
+require_once __DIR__."/../../config.php";
 
 require_once HERE."/include/functions.php";
 
@@ -22,23 +22,25 @@ $errors = array();
 try {
     $row = get_attendee_by_uuid($mysqli, $inputs['uuid']);
     $challenge = get_attendee_challenges($mysqli, $row['id']);
-}catch (Exception $e){
+} catch (Exception $e) {
     saveDie();
 }
 
 /** @noinspection PhpUndefinedVariableInspection */
-if(is_null($challenge)){
+if (is_null($challenge)) {
     saveDie();
 }
 
-if(isset($inputs['code']) && in_array(trim($inputs['code']),$challenge)) {
-
+if (isset($inputs['code']) && in_array(trim($inputs['code']), $challenge)) {
     require_once HERE."/vendor/autoload.php";
 
     $qr = tempnam("/tmp", "qr");
-    (new \chillerlan\QRCode\QRCode())->render($row['uuid'], $qr);
+    /** @noinspection PhpUndefinedVariableInspection */
+    (new QRCode())->render($row['uuid'], $qr);
 
-    $row = array_map(function ($e){ return htmlentities($e);}, $row);
+    $row = array_map(function ($e) {
+        return htmlentities($e);
+    }, $row);
     $row["email"] = $row['email'] != "" ? htmlentities($row['email']) : "N/A";
     $row["phonenumber"] = $row['phonenumber'] != "" ? htmlentities($row['phonenumber']) : "N/A";
 
@@ -185,6 +187,6 @@ EOH;
     </html>
 
     <?php
- } else {
+} else {
     saveDie();
 } ?>

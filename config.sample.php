@@ -1,8 +1,7 @@
 <?php
-if(!defined("INCLUDED"))
-    die();
 
-define("HERE", dirname(__FILE__));
+
+const HERE = __DIR__;
 
 const DB_SERVER = "localhost";
 const DB_PORT = "3306";
@@ -44,7 +43,9 @@ $ORGANISATION = ORGANISATION;
 const DEFAULT_COUNTRY_ISO_CODE = "DEU";
 
 const PRIVACY_POLICY =<<<EOT
-<p>The data processing is necessary due to current legal corona regulaions in Saxony (Sächs. Corona-Schutzverordnung). Your personal data is stored solely for the purpose of maintaining access to the institute cafeteria. The data is not forwarded to any third parties. The data will be deleted</p>
+<p>The data processing is necessary due to current legal corona regulaions in Saxony (Sächs. Corona-Schutzverordnung). 
+Your personal data is stored solely for the purpose of maintaining access to the institute cafeteria. The data is not 
+forwarded to any third parties. The data will be deleted</p>
 <ul>
     <li>4 weeks after the return of the chip to the institute (no further access to the cafeteria)</li>
 </ul>

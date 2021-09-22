@@ -12,7 +12,7 @@ ob_flush();
     <title>COVID Contact tracing checkin</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Favicons -->
     <meta name="theme-color" content="#563d7c">
@@ -33,15 +33,15 @@ ob_flush();
         }
     </style>
     <!-- Custom styles for this template -->
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/form-validation.css" rel="stylesheet">
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/css/style.css" rel="stylesheet">
-    <link href="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/css/form-validation.css" rel="stylesheet">
+    <link href="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/css/style.css" rel="stylesheet">
+    <link href="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
 <div class="container">
     <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/img/logo-startpage.png" alt="" height="72">
+        <img class="d-block mx-auto mb-4" src="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/img/logo-startpage.png" alt="" height="72">
         <h2 style="font-family: Wingdings">ThErE-wAs_An'eRrOr</h2>
         <p class="lead">
             <i class="bi bi-bug-fill" style="font-size: 48px"></i>
@@ -55,7 +55,7 @@ ob_flush();
                 Ooops, this should not have happend. But it did! <br />
                 Please try again, later or ask someone* to debug the application
                 <?php
-                if(isset($ERROR_MSG)) {
+                if (isset($ERROR_MSG)) {
                     echo "<br /><code>".$ERROR_MSG."</code>";
                 }
                 ?>
@@ -72,9 +72,9 @@ ob_flush();
         </ul>
     </footer>
 </div>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/jquery-3.5.1.min.js"></script>
+<script src="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/js/jquery-3.5.1.min.js"></script>
 
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/bootstrap.bundle.min.js"></script>
+<script src="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/js/bootstrap.bundle.min.js"></script>
 
 <!--suppress JSUnresolvedVariable -->
 <script>
@@ -97,7 +97,7 @@ ob_flush();
         });
     });
 </script>
-<script src="<?php echo rtrim(dirname($_SERVER['PHP_SELF']),"/"); ?>/js/form-validation.js"></script>
+<script src="<?= rtrim(dirname(filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_URL)), "/"); ?>/js/form-validation.js"></script>
 
 </body>
 </html>
